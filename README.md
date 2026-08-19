@@ -11,16 +11,77 @@ git history, test results, dependency manifests) or is explicitly marked
 output look more complete than the evidence supports — that rule applies to
 the tool's own output, and to this README.
 
-> **Status:** v0.1.0, run from a local checkout. Not published to a package
-> registry; there is no `.env` configuration, no Jira/Slack/GitHub API
+> **Status:** v0.1.1, [published on npm](https://www.npmjs.com/package/codepromax)
+> as `codepromax`. There is no `.env` configuration, no Jira/Slack/GitHub API
 > integration, and no LangChain/OpenAI/Semantic Kernel wrapper today. See
 > [Roadmap](#roadmap--not-yet-implemented) for what's planned versus what
 > exists. Full gap list in [RELEASE-NOTES.md](RELEASE-NOTES.md).
 
 ---
 
+## Add This MCP Server
+
+No install, no clone — `npx` fetches `codepromax` from npm on first use.
+
+**Claude Code:**
+
+```bash
+claude mcp add code-pro-max -- npx -y -p codepromax codepro-mcp
+```
+
+**Claude Desktop** — add to `claude_desktop_config.json`
+(macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`):
+
+```json
+{
+  "mcpServers": {
+    "code-pro-max": {
+      "command": "npx",
+      "args": ["-y", "-p", "codepromax", "codepro-mcp"]
+    }
+  }
+}
+```
+
+**Codex CLI** — add to `~/.codex/config.toml`:
+
+```toml
+[mcp_servers.code-pro-max]
+command = "npx"
+args = ["-y", "-p", "codepromax", "codepro-mcp"]
+```
+
+**Cursor** — add to `.cursor/mcp.json` (project) or `~/.cursor/mcp.json`
+(global):
+
+```json
+{
+  "mcpServers": {
+    "code-pro-max": {
+      "command": "npx",
+      "args": ["-y", "-p", "codepromax", "codepro-mcp"]
+    }
+  }
+}
+```
+
+**Antigravity** — same `mcpServers` JSON shape as Claude Desktop/Cursor
+above, added via Antigravity's MCP settings panel or its MCP config file;
+consult your Antigravity version's docs for the exact file path, since it
+varies by release.
+
+> The `-p codepromax` flag is required — the package ships two binaries
+> (`codepro`, `codepro-mcp`), so a bare `npx codepromax` can't tell which
+> one to run. After adding the server, restart your client and start it in
+> (or point `repository_path` at) the repo you want analyzed — that's what
+> `find_initiatives`/`build_initiative`/etc. resolve relative paths against.
+> Full tool list and troubleshooting: [docs/OPERATOR-GUIDE.md](docs/OPERATOR-GUIDE.md#mcp-server).
+
+---
+
 ## Table of Contents
 
+- [Add This MCP Server](#add-this-mcp-server)
 - [Overview & Value Proposition](#overview--value-proposition)
 - [Prerequisites & Installation](#prerequisites--installation)
 - [Command Reference](#command-reference)
@@ -101,8 +162,8 @@ See [Roadmap](#roadmap--not-yet-implemented) for planned CLI flags.
 
 ### Installation Steps
 
-**Via npm (recommended)** — once published, no checkout is needed; `npx`
-fetches and runs the CLI on demand:
+**Via npm (recommended)** — no checkout needed; `npx` fetches and runs the
+CLI on demand:
 
 ```bash
 npx -y -p codepromax codepro help
@@ -113,8 +174,8 @@ The `-p codepromax` form is required because the package exposes two bins
 (`codepro` and `codepro-mcp`), so a plain `npx codepromax` can't infer which
 one to run.
 
-**From a local checkout** — for development, or before the package is
-published:
+**From a local checkout** — for development, or to run against an
+in-progress change before it's published:
 
 ```bash
 git clone <repo-url>
@@ -610,7 +671,7 @@ repo.
 | Platform | Status |
 |---|---|
 | CLI (any shell) | ✅ Works today via `npx tsx src/cli/entry-point.ts` |
-| MCP client (Claude Code, Claude Desktop, other MCP clients) | ✅ `npm run start:mcp` — 6 tools, tested end-to-end over the real MCP protocol (`src/adapters/__tests__/mcp-server.test.ts`) |
+| MCP client (Claude Code, Claude Desktop, Codex CLI, Cursor, Antigravity, other MCP clients) | ✅ `npx -y -p codepromax codepro-mcp` — 6 tools, tested end-to-end over the real MCP protocol (`src/adapters/__tests__/mcp-server.test.ts`) |
 | Programmatic (Node/TypeScript) | ✅ Import `CommandHandler` directly |
 | LangChain, Semantic Kernel, OpenAI function calling (non-MCP), LlamaIndex | ❌ No bundled adapter — would need to be written against `CommandHandler`'s TypeScript API, unless the framework itself speaks MCP |
 | Cursor command palette, GitHub Actions workflow | ❌ Not provided |
@@ -622,16 +683,17 @@ No YAML or CSV export exists.
 
 ### Running the MCP Server
 
+Via npm (see [Add This MCP Server](#add-this-mcp-server) above for full
+client configs):
+
+```bash
+npx -y -p codepromax codepro-mcp
+```
+
 From a local checkout:
 
 ```bash
 npm run start:mcp
-```
-
-Via npm, once published:
-
-```bash
-npx -y -p codepromax codepro-mcp
 ```
 
 See [docs/OPERATOR-GUIDE.md](docs/OPERATOR-GUIDE.md#mcp-server) for client
@@ -655,7 +717,6 @@ planning material for this project but are not in v0.1.0:
   calling, LlamaIndex) — MCP itself is implemented (`src/adapters/`)
 - YAML/CSV/Jira/Confluence export formats
 - Performance benchmarking against large repositories
-- A published npm package
 
 See [RELEASE-NOTES.md](RELEASE-NOTES.md) for the complete, current list of
 gaps, and [docs/DEVELOPER-GUIDE.md](docs/DEVELOPER-GUIDE.md) for how to

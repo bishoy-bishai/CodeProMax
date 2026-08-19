@@ -139,8 +139,8 @@ like it's hanging, which is normal (check stderr for
 
 ### Configuring a Client
 
-**Via npm (recommended)** — once published, no local checkout is needed.
-`npx` fetches and runs `codepro-mcp` on demand:
+**Via npm (recommended)** — no local checkout needed. `npx` fetches and
+runs `codepro-mcp` on demand:
 
 Claude Code:
 
@@ -169,6 +169,23 @@ Codex CLI (`~/.codex/config.toml`):
 command = "npx"
 args = ["-y", "-p", "codepromax", "codepro-mcp"]
 ```
+
+Cursor (`.cursor/mcp.json` project-level, or `~/.cursor/mcp.json` global):
+
+```json
+{
+  "mcpServers": {
+    "code-pro-max": {
+      "command": "npx",
+      "args": ["-y", "-p", "codepromax", "codepro-mcp"]
+    }
+  }
+}
+```
+
+Antigravity: same `mcpServers` JSON shape as above, added through
+Antigravity's MCP settings panel or its MCP config file — the exact file
+path varies by release, so check your version's docs.
 
 **From a local checkout** — point the client at the launcher script directly:
 
