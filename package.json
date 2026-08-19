@@ -1,0 +1,27 @@
+{
+  "name": "codepromax",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^26.2.0",
+    "@vitest/coverage-v8": "^2.1.9",
+    "ts-node": "^10.9.2",
+    "typescript": "^7.0.2",
+    "vitest": "^2.1.9"
+  },
+  "type": "module"
+}
