@@ -101,6 +101,21 @@ See [Roadmap](#roadmap--not-yet-implemented) for planned CLI flags.
 
 ### Installation Steps
 
+**Via npm (recommended)** — once published, no checkout is needed; `npx`
+fetches and runs the CLI on demand:
+
+```bash
+npx -y -p codepromax codepro help
+npx -y -p codepromax codepro find 3 .
+```
+
+The `-p codepromax` form is required because the package exposes two bins
+(`codepro` and `codepro-mcp`), so a plain `npx codepromax` can't infer which
+one to run.
+
+**From a local checkout** — for development, or before the package is
+published:
+
 ```bash
 git clone <repo-url>
 cd CodeProMax
@@ -607,8 +622,16 @@ No YAML or CSV export exists.
 
 ### Running the MCP Server
 
+From a local checkout:
+
 ```bash
 npm run start:mcp
+```
+
+Via npm, once published:
+
+```bash
+npx -y -p codepromax codepro-mcp
 ```
 
 See [docs/OPERATOR-GUIDE.md](docs/OPERATOR-GUIDE.md#mcp-server) for client
