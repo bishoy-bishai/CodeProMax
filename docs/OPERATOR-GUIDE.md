@@ -50,6 +50,14 @@ Writes:
 - `documents/initiatives/initiative-register.md` — human-readable summary table
 - `documents/initiatives/{slug}/initiative.md` — one per top-N initiative
 
+> **`documents/` is written relative to where you *run* the command, not
+> `repoPath`.** `codepro find 5 /some/other/repo` analyzes
+> `/some/other/repo` but writes `documents/initiatives/` under your current
+> directory. Run the command from inside the repo you want documents written
+> into (`cd /some/other/repo && codepro find 5 .`), or pass `.` as shown
+> above, if you want analysis target and output location to be the same
+> place.
+
 ### `codepro build <INIT-ID>`
 
 Generates the full document package for one initiative already in the register:

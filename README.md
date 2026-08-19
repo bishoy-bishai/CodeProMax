@@ -659,6 +659,14 @@ Details: [docs/DEVELOPER-GUIDE.md](docs/DEVELOPER-GUIDE.md) ·
 [docs/evidence-types.md](docs/evidence-types.md) ·
 [docs/OPERATOR-GUIDE.md](docs/OPERATOR-GUIDE.md)
 
+## Deployment
+
+See [deploy-strategy.md](deploy-strategy.md) for which deployment methods
+actually fit this tool (local install, npm publish, GitHub Releases — not
+Docker/Heroku/AWS, and why), [DEPLOYMENT.md](DEPLOYMENT.md) for step-by-step
+instructions and the `scripts/deploy-*.sh` automation, and
+[ROLLBACK.md](ROLLBACK.md) if a release needs to be undone.
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) — in particular the no-fabrication
@@ -667,4 +675,4 @@ follows too.
 
 ## License
 
-ISC (see `package.json`).
+ISC (see `LICENSE`).
