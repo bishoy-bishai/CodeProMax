@@ -2,24 +2,30 @@
   "name": "codepromax",
   "version": "1.0.0",
   "main": "index.js",
+  "bin": {
+    "codepro-mcp": "bin/mcp-server.js"
+  },
   "scripts": {
     "build": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "start:mcp": "node bin/mcp-server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {
     "@types/node": "^26.2.0",
     "@vitest/coverage-v8": "^2.1.9",
     "ts-node": "^10.9.2",
+    "tsx": "^4.23.12",
     "typescript": "^7.0.2",
     "vitest": "^2.1.9"
   },

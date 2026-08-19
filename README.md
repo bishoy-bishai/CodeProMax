@@ -114,8 +114,8 @@ npm run typecheck   # see the caveat in the note below
 npm test
 ```
 
-Expected: `npm test` prints `Test Files  17 passed (17)` /
-`Tests  324 passed (324)`. `npm run typecheck` currently reports errors —
+Expected: `npm test` prints `Test Files  20 passed (20)` /
+`Tests  357 passed (357)`. `npm run typecheck` currently reports errors —
 this is a known, repo-wide condition (see the note below), not a sign your
 install is broken.
 
@@ -131,7 +131,7 @@ install is broken.
 ```bash
 # 1. Tests pass
 npm test
-# → Test Files  17 passed (17) / Tests  324 passed (324)
+# → Test Files  20 passed (20) / Tests  357 passed (357)
 
 # 2. CLI runs and prints help
 npx tsx src/cli/entry-point.ts help
@@ -533,7 +533,7 @@ npx tsx src/cli/entry-point.ts status   # confirms the register still loads
 ## Testing
 
 ```bash
-npm test                # full suite, single run — 324 tests across 17 files
+npm test                # full suite, single run — 357 tests across 20 files
 npm run test:watch      # watch mode
 npm run test:coverage   # coverage, scoped to src/schemas/ (see vitest.config.ts)
 ./scripts/run-tests.sh  # typecheck (informational) + test + coverage in one pass
@@ -569,30 +569,51 @@ npx tsx src/cli/entry-point.ts review
 
 ## Compatibility & Integration
 
-Code Pro Max is a standalone Node.js/TypeScript CLI (`src/cli/entry-point.ts`)
-over a plain TypeScript API (`CommandHandler`). There is currently no bundled
-integration with any specific AI framework, IDE, or CI system — no
-LangChain/Semantic Kernel/OpenAI-function-calling wrapper, no Cursor command,
-no GitHub Actions workflow ships in this repo.
+Code Pro Max exposes its commands two ways:
 
-What *is* true: `CommandHandler`'s methods are plain async TypeScript
-functions returning typed, JSON-serializable objects (see
-[Command Reference](#command-reference)), so wrapping one in a tool/function
-definition for any framework that supports custom tools is straightforward —
-it just isn't done for you yet.
+1. **CLI** (`src/cli/entry-point.ts`) — any shell, any coding agent with
+   shell access.
+2. **MCP server** (`src/adapters/mcp-server.ts`, launched via
+   `npm run start:mcp` or `bin/mcp-server.js`) — 6 tools
+   (`find_initiatives`, `build_initiative`, `review_initiatives`,
+   `re_analyze`, `update_initiative`, `get_status`) over the standard [Model
+   Context Protocol](https://modelcontextprotocol.io) stdio transport, for
+   any MCP-speaking client (Claude Code, Claude Desktop, the Claude API via
+   MCP, and other MCP clients). `help` is intentionally not a registered
+   tool — MCP already gives the client a tool list with descriptions.
+
+Both sit over the same plain TypeScript API (`CommandHandler`) and return the
+same data — the MCP layer doesn't reformat or rename fields, it just wraps
+each result in `{ success, data }` / `{ success: false, error }` (see
+[docs/DEVELOPER-GUIDE.md](docs/DEVELOPER-GUIDE.md#mcp-adapter)).
+
+There is no bundled adapter for frameworks that predate or sit outside MCP —
+no LangChain tool wrapper, no OpenAI-function-calling shim, no Semantic
+Kernel plugin, no Cursor command, no GitHub Actions workflow ships in this
+repo.
 
 | Platform | Status |
 |---|---|
 | CLI (any shell) | ✅ Works today via `npx tsx src/cli/entry-point.ts` |
+| MCP client (Claude Code, Claude Desktop, other MCP clients) | ✅ `npm run start:mcp` — 6 tools, tested end-to-end over the real MCP protocol (`src/adapters/__tests__/mcp-server.test.ts`) |
 | Programmatic (Node/TypeScript) | ✅ Import `CommandHandler` directly |
-| Claude Code / other coding agents with shell access | ✅ Works via the CLI, same as any shell command |
-| Claude API tool use, LangChain, Semantic Kernel, OpenAI function calling, LlamaIndex | ❌ No bundled adapter — would need to be written against `CommandHandler`'s TypeScript API |
+| LangChain, Semantic Kernel, OpenAI function calling (non-MCP), LlamaIndex | ❌ No bundled adapter — would need to be written against `CommandHandler`'s TypeScript API, unless the framework itself speaks MCP |
 | Cursor command palette, GitHub Actions workflow | ❌ Not provided |
 | Jira / Confluence / Slack export | ❌ Not implemented |
 
 Output today is Markdown (generated documents) and JSON (`register.json`,
-and every `CommandHandler` method's return value). No YAML or CSV export
-exists.
+every `CommandHandler` method's return value, and every MCP tool response).
+No YAML or CSV export exists.
+
+### Running the MCP Server
+
+```bash
+npm run start:mcp
+```
+
+See [docs/OPERATOR-GUIDE.md](docs/OPERATOR-GUIDE.md#mcp-server) for client
+configuration and [docs/DEVELOPER-GUIDE.md](docs/DEVELOPER-GUIDE.md#mcp-adapter)
+for the adapter's internals.
 
 ---
 
@@ -607,8 +628,8 @@ planning material for this project but are not in v0.1.0:
   pipeline API; nothing wires it to `codepro find`/`re-analyze`)
 - `.env`-based configuration
 - GitHub/Jira/Slack API integration and credential setup
-- Framework adapters (LangChain, Semantic Kernel, OpenAI function calling,
-  LlamaIndex)
+- Non-MCP framework adapters (LangChain, Semantic Kernel, OpenAI function
+  calling, LlamaIndex) — MCP itself is implemented (`src/adapters/`)
 - YAML/CSV/Jira/Confluence export formats
 - Performance benchmarking against large repositories
 - A published npm package

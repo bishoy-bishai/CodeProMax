@@ -55,6 +55,23 @@ work was completed in this repository.
   referential integrity).
 - `src/cli/entry-point.ts`: CLI dispatch over `CommandHandler`.
 
+### MCP Adapter
+- `src/adapters/mcp-server.ts`: MCP server (via `@modelcontextprotocol/sdk`'s
+  `McpServer`) exposing six of the seven `/codepro` commands as tools over
+  stdio (`help` omitted — MCP clients already receive a described tool
+  list). `bin/mcp-server.js` / `npm run start:mcp` launches it.
+- `src/adapters/mcp-tools.ts`: zod input schemas exposing only parameters
+  `CommandHandler` actually implements — `analysis_depth`,
+  `include_runtime_signals`, `export_format`, and similar fields from an
+  earlier draft spec were deliberately left out rather than accepted and
+  silently ignored.
+- `src/adapters/mcp-handlers.ts`: routes validated input to `CommandHandler`,
+  mapping `ValidationError` (and generic errors) into a
+  `{success:false, error}` envelope rather than inventing an error-code
+  enum.
+- Tested end-to-end over the real MCP protocol via `InMemoryTransport` and a
+  real `Client`, not just by calling the handler functions directly.
+
 ### Known Gaps (tracked, not silently dropped — see RELEASE-NOTES.md)
 - `release.md` and `stakeholder-report.md` document generators are not built;
   `codepro build` generates the four document types that exist.

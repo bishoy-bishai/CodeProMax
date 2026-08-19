@@ -17,15 +17,20 @@ Code Pro Max v0.1.0 is an end-to-end pipeline from "scan a repository" to
    `re-analyze`, `update`, `status`, `help`) persist findings to a register,
    drive documents to disk, and advance initiative status through a guarded
    state machine.
+4. **MCP server** — six of the seven commands (all but `help`) are exposed as
+   MCP tools over stdio (`npm run start:mcp`), for Claude Code, Claude
+   Desktop, or any other MCP client, returning the exact same data the CLI
+   prints, wrapped in a `{success, data}`/`{success:false, error}` envelope.
 
 See [docs/OPERATOR-GUIDE.md](docs/OPERATOR-GUIDE.md) for usage and
 [docs/DEVELOPER-GUIDE.md](docs/DEVELOPER-GUIDE.md) for the architecture.
 
 ## Test Suite
 
-324 tests passing across 17 test files (`npm test`), covering schemas, the
+357 tests passing across 20 test files (`npm test`), covering schemas, the
 core algorithms, evidence collection, root cause analysis, the full pipeline,
-all four document generators, INVEST validation, and every command.
+all four document generators, INVEST validation, every command, and the MCP
+adapter (including an end-to-end protocol test over a real MCP `Client`).
 
 ## Known Gaps
 
@@ -69,7 +74,13 @@ spec described:
   repo-wide and predates this release — it is not a defect introduced by any
   specific phase, but it does mean "no TypeScript errors" is not currently
   true and shouldn't be claimed as a met gate.
-- **No security review has been performed** as part of this release.
+- **No LangChain/Semantic Kernel/OpenAI-function-calling adapter.** MCP
+  itself is implemented (`src/adapters/`); wrappers for frameworks that don't
+  speak MCP directly are not.
+- **No security review has been performed** as part of this release,
+  including of the new MCP server surface (untrusted tool-call arguments are
+  validated by zod schemas before reaching `CommandHandler`, but that
+  validation has not had a dedicated security pass).
 - **Not published to a registry.** There is no `npm install code-pro-max` yet
   — run it from a local checkout (see the Operator Guide's Installation
   section).

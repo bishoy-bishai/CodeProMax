@@ -110,6 +110,77 @@ codepro status
 
 Lists all commands with a one-line description and example.
 
+## MCP Server
+
+Code Pro Max also runs as an MCP server, exposing six of the seven commands
+above as tools over stdio (`help` is skipped — MCP clients already get a tool
+list with descriptions, so it's redundant).
+
+```bash
+npm run start:mcp
+```
+
+This starts `bin/mcp-server.js`, which registers `find_initiatives`,
+`build_initiative`, `review_initiatives`, `re_analyze`, `update_initiative`,
+and `get_status`, then blocks on stdio waiting for a client. It's meant to be
+launched by an MCP client, not run interactively — a bare terminal will look
+like it's hanging, which is normal (check stderr for
+`Code Pro Max MCP server running on stdio (6 tools registered).`).
+
+### Configuring a Client
+
+Point your MCP client at the launcher script. For Claude Desktop / Claude
+Code style JSON config:
+
+```json
+{
+  "mcpServers": {
+    "code-pro-max": {
+      "command": "node",
+      "args": ["/absolute/path/to/CodeProMax/bin/mcp-server.js"]
+    }
+  }
+}
+```
+
+The server's working directory is what `repository_path` and
+`initiative_id`-relative document paths resolve against by default — start
+it from (or point it at) the repository you want analyzed, or pass an
+explicit `repository_path` in the tool call.
+
+### Tool ↔ Command Mapping
+
+| MCP tool | CLI equivalent | Real parameters exposed |
+|---|---|---|
+| `find_initiatives` | `codepro find <N> [repoPath]` | `num_initiatives` (1-10, default 5), `repository_path` (optional) |
+| `build_initiative` | `codepro build <INIT-ID>` | `initiative_id` (required, `INIT-NNN`) |
+| `review_initiatives` | `codepro review` | none |
+| `re_analyze` | `codepro re-analyze [repoPath]` | `repository_path` (optional) |
+| `update_initiative` | `codepro update <INIT-ID> [repoPath]` | `initiative_id` (required), `repository_path` (optional) |
+| `get_status` | `codepro status` | none |
+
+No tool accepts `analysis_depth`, `include_runtime_signals`,
+`include_git_history`, `export_format`, `compare_to_previous`,
+`recalculate_score`, or `check_*` flags — none of those affect real behavior
+in `CommandHandler`, so they aren't offered as knobs a model could believe it
+was turning.
+
+### Response Shape
+
+Every tool returns one text content block containing JSON:
+`{ "success": true, "data": ... }` (the same shape the CLI's underlying
+`CommandHandler` method returns) or
+`{ "success": false, "error": { "message": ..., "details": [...] | null } }`,
+with `isError: true` set on the MCP result. `details` is populated when the
+failure was a structured `ValidationError` (see the README's
+[Error Handling](../README.md#error-handling--limitations) section) and
+`null` for a generic error.
+
+Malformed tool *arguments* (e.g. an `initiative_id` that doesn't match
+`INIT-NNN`) are rejected by the MCP SDK's own schema validation before the
+handler runs at all — the client gets an MCP protocol error, not this
+`{success:false}` envelope.
+
 ## Troubleshooting
 
 ### "Initiative INIT-XXX not found"
