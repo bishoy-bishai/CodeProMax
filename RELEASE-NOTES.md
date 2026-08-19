@@ -81,9 +81,9 @@ spec described:
   including of the new MCP server surface (untrusted tool-call arguments are
   validated by zod schemas before reaching `CommandHandler`, but that
   validation has not had a dedicated security pass).
-- **Not published to a registry.** There is no `npm install code-pro-max` yet
-  — run it from a local checkout (see the Operator Guide's Installation
-  section).
+- **Published as `codepromax` on npm** as of v0.1.1 — `npx -y -p codepromax
+  codepro` / `codepro-mcp` works without a local checkout (see the
+  Operator Guide's Installation section).
 
 ## Upgrading
 
