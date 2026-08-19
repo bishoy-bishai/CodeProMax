@@ -1,6 +1,6 @@
 {
   "name": "codepromax",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Analyzes a repository, discovers evidence-backed engineering improvement initiatives, and generates planning documents for them. CLI + MCP server.",
   "keywords": [
     "code-analysis",
