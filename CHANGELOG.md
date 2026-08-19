@@ -3,6 +3,17 @@
 All notable changes to Code Pro Max are documented here. Dates reflect when
 work was completed in this repository.
 
+## [0.1.1] — 2026-08-19
+
+### Fixed
+- `bin/codepro.js` and `bin/mcp-server.js` resolved `tsx` via a hardcoded
+  `node_modules/.bin/tsx` path, which only works when this package is the
+  root package. Installed as a dependency (e.g. via `npx`), npm hoists
+  `tsx`'s binary elsewhere, so both launchers failed with `ENOENT`. Both now
+  resolve `tsx`'s CLI via `import.meta.resolve("tsx/cli")`.
+- Test files (`**/__tests__/**`, `*.test.ts`) are now excluded from the
+  published npm package.
+
 ## [0.1.0] — Unreleased
 
 ### Phase 0 — Core Schemas & Algorithms
