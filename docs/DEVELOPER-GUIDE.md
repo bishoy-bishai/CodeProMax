@@ -14,6 +14,7 @@ generators/  Markdown document generators (initiative, epic, tech-spec, tickets)
 validators/  Cross-cutting validators not tied to persistence (currently: INVEST)
 commands/    /codepro command orchestration, file I/O, register persistence, consistency checks
 cli/         Thin CLI entry point over commands/
+adapters/    MCP server exposing commands/ as tools over stdio
 ```
 
 Deep dives on individual layers:
@@ -85,6 +86,41 @@ The existing four (`InitiativeGenerator`, `EpicGenerator`, `TechSpecGenerator`,
 Note: `release.md` and `stakeholder-report.md` generators do not exist yet.
 `CommandHandler.build()` only calls the four generators that are actually
 built — see the comment at the top of `command-handler.ts` for why.
+
+## MCP Adapter
+
+`src/adapters/` wraps `CommandHandler` (`src/commands/command-handler.ts`) as
+an MCP server, one layer above `commands/` — it does not duplicate command
+logic, only translates between the MCP wire format and the same typed
+results the CLI prints.
+
+```
+mcp-types.ts     McpToolResponse<T> envelope ({success:true,data} | {success:false,error})
+mcp-tools.ts     Per-tool zod input schemas + descriptions shown to the calling model
+mcp-handlers.ts  Routes validated input to CommandHandler, catches errors into the envelope
+mcp-server.ts    createServer(baseDir, commandHandlerOverride?) + stdio entry point
+```
+
+`createServer()` takes an optional `CommandHandler` override specifically so
+tests can inject a stubbed pipeline (see
+`src/adapters/__tests__/mcp-server.test.ts`, which drives the server through
+a real `Client` over `InMemoryTransport` — not just calling the handler
+functions directly) without running a real repository analysis.
+
+**Adding a 7th tool** (e.g. if a `release` document generator gets built and
+you want to expose it): add its zod input schema + description to
+`mcp-tools.ts`, add a routing function to `mcp-handlers.ts` that calls the
+corresponding `CommandHandler` method through the same `runTool()` wrapper,
+then `server.registerTool(...)` it in `mcp-server.ts`. Only expose parameters
+that actually change behavior — seen already in this file's history: a
+prior draft spec included `analysis_depth`/`include_runtime_signals`/etc.
+that `CommandHandler` doesn't implement, and they were deliberately left out
+rather than accepted and silently ignored.
+
+`bin/mcp-server.js` spawns `tsx` on `src/adapters/mcp-server.ts` with
+`stdio: "inherit"` because there's no compiled build in this project (see the
+`.ts`-import-extension note above) and the stdio transport needs an
+unmodified pipe to the client.
 
 ## Running Tests
 
