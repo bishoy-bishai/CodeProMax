@@ -10,7 +10,9 @@ aspirational features — if something isn't listed here, it isn't implemented y
 
 ## Installation
 
-The package is not yet published. Run it from a local checkout:
+Once published to npm, no install step is needed — `npx codepromax` runs
+the CLI on demand (see [MCP Server](#mcp-server) below for the MCP-specific
+invocation). Until then, run it from a local checkout:
 
 ```bash
 git clone <repo-url>
@@ -137,8 +139,38 @@ like it's hanging, which is normal (check stderr for
 
 ### Configuring a Client
 
-Point your MCP client at the launcher script. For Claude Desktop / Claude
-Code style JSON config:
+**Via npm (recommended)** — once published, no local checkout is needed.
+`npx` fetches and runs `codepro-mcp` on demand:
+
+Claude Code:
+
+```bash
+claude mcp add code-pro-max -- npx -y -p codepromax codepro-mcp
+```
+
+Claude Desktop / Claude Code JSON config (`claude_desktop_config.json` or
+`.mcp.json`):
+
+```json
+{
+  "mcpServers": {
+    "code-pro-max": {
+      "command": "npx",
+      "args": ["-y", "-p", "codepromax", "codepro-mcp"]
+    }
+  }
+}
+```
+
+Codex CLI (`~/.codex/config.toml`):
+
+```toml
+[mcp_servers.code-pro-max]
+command = "npx"
+args = ["-y", "-p", "codepromax", "codepro-mcp"]
+```
+
+**From a local checkout** — point the client at the launcher script directly:
 
 ```json
 {
