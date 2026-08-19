@@ -1,8 +1,14 @@
 {
   "name": "codepromax",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Analyzes a repository, discovers evidence-backed engineering improvement initiatives, and generates planning documents for them. CLI + MCP server.",
-  "keywords": ["code-analysis", "technical-debt", "mcp", "mcp-server", "developer-tools"],
+  "keywords": [
+    "code-analysis",
+    "technical-debt",
+    "mcp",
+    "mcp-server",
+    "developer-tools"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bishoy-bishai/CodeProMax.git"
