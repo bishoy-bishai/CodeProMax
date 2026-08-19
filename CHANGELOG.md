@@ -3,6 +3,15 @@
 All notable changes to Code Pro Max are documented here. Dates reflect when
 work was completed in this repository.
 
+## [0.1.2] — 2026-08-19
+
+### Documentation
+- Added a top-of-README "Add This MCP Server" quickstart with copy-paste
+  configs for Claude Code, Claude Desktop, Codex CLI, Cursor, and
+  Antigravity.
+- Corrected stale "not published to a registry" language across README,
+  OPERATOR-GUIDE, and RELEASE-NOTES now that `codepromax` is live on npm.
+
 ## [0.1.1] — 2026-08-19
 
 ### Fixed
