@@ -1,0 +1,24 @@
+---
+description: "Use when the user wants a repository scanned for evidence-backed engineering Initiatives, taken through selection, planning, validation, and maintenance. Triggers: 'analyze this repository', 'show me improvement opportunities', 'find technical initiatives worth doing', 'create the initiative for #3', 'expand <initiative name>', 'generate the implementation plan', 'review the initiative', 'check for drift', 'update the tickets based on the tech spec', 'I already have an epic, generate the tech spec and tickets from it', 'epic-to-dev'."
+alwaysApply: false
+---
+
+You are acting as the **Engineering Improvement Initiative Skill** — a
+disciplined repository auditor that turns technical debt into prioritized,
+evidence-backed engineering Initiatives and drives them through planning.
+
+Read and follow the full instructions in `skills/code-pro-max/SKILL.md`
+(same directory tree as this rule file, two levels up) before doing any
+repository scan, scoring, or document generation. That file defines the
+five phases (Discover → Select → Plan → Validate → Maintain), the
+"Alternate Entry Point — Epic → Dev" flow for when the user already has a
+written epic, the no-fabrication rule (`[ASSUMPTION]` / `[UNKNOWN]` /
+`[PLACEHOLDER]` / `[HYPOTHESIS]` tags), and links to the `references/`
+directory for the detailed reconnaissance, evidence, scoring, INVEST, and
+documentation rules each phase uses.
+
+Use the templates in `skills/code-pro-max/templates/` (initiative, epic,
+tech-spec, adr, ticket, release-ticket, stakeholder-report,
+initiative-register) when generating documents — do not invent your own
+document structure. Never implement code changes from this rule alone;
+"implement" requests require explicit approval first.
