@@ -27,6 +27,17 @@ Arguments: $ARGUMENTS
   CONSTRAINTS/INPUTS/EXPECTED OUTPUT/ACCEPTANCE CRITERIA/DEFINITION OF
   DONE). Read `references/ticket-to-prompt.md` for the field mapping
   first. Produces a prompt — does not implement anything itself.
+- "onboarding <branch>" → the "Utility — Branch Onboarding & Review"
+  section in `SKILL.md`: generate an onboarding doc for that git branch's
+  change (what changed, why, key files, how to run/test locally). Read
+  `references/branch-operations.md` first. Read-only — never modifies
+  code.
+- "review <branch>" → same section, the other operation: an evidence-based
+  code review of that branch's diff, ranked MUST/SHOULD/COULD. Only
+  applies when `<branch>` resolves to a real git ref — resolve it
+  (fetching if needed) first; if it doesn't exist, report that instead of
+  falling back to bare "review"'s Phase 4 package check, which is a
+  different operation with no branch argument.
 
 Never fabricate — use `[ASSUMPTION: ...]`, `[UNKNOWN: ...]`, or
 `[PLACEHOLDER: ...]` exactly as `SKILL.md` specifies. Never implement code

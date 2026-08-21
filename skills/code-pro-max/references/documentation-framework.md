@@ -63,7 +63,19 @@ outcomes and impact.
 - **SHOULD** — clear value with reasonable confidence.
 - **COULD** — useful optional improvement.
 
-Carry confidence alongside recommendation strength where useful.
+Carry confidence alongside recommendation strength where useful — see
+[evidence-and-analysis.md](evidence-and-analysis.md) §04's Confirmed/
+Likely/Potential tiers for the finding-level version of this.
+
+**Severity is not the same axis as Recommendation Strength.** Severity
+(Critical/High/Medium/Low) describes how bad the underlying problem is;
+Recommendation Strength describes how confidently backed the finding is.
+A confirmed-but-minor issue might be `MUST` fix-before-merge at Low
+severity (e.g. a typo in a public API error message); a plausible-but-
+unverified issue might be High severity if true but only `COULD` because
+confidence is thin. Don't collapse the two into one scale, and never use
+`MUST` just because something is undesirable — reserve it for confirmed
+correctness, security, or data-integrity problems.
 
 ## Security & NFRs
 

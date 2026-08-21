@@ -15,7 +15,8 @@ itself with its own file-read/grep/`git` tools.
 - [`references/`](references/) — the detailed rules each phase draws on:
   - [`evidence-and-analysis.md`](references/evidence-and-analysis.md) —
     reconnaissance protocol, evidence tiers, root cause analysis (5 Whys),
-    observability evidence model.
+    observability evidence model, and finding confidence/validation rules
+    shared by Discover and the branch review operation.
   - [`prioritization.md`](references/prioritization.md) — opportunity
     scoring, priority tiers, decision trace, drift & reassessment.
   - [`invest.md`](references/invest.md) /
@@ -30,14 +31,19 @@ itself with its own file-read/grep/`git` tools.
     per-document audience/purpose/structure and the writing constitution.
   - [`ticket-to-prompt.md`](references/ticket-to-prompt.md) — field mapping
     and rules for converting a ticket into an AICraft-schema build prompt.
+  - [`branch-operations.md`](references/branch-operations.md) — branch
+    evidence gathering, onboarding doc generation, and the 8-category
+    evidence-based branch review.
 - [`templates/`](templates/) — `initiative.md`, `epic.md`, `tech-spec.md`,
   `adr.md`, `ticket.md`, `release-ticket.md`, `stakeholder-report.md`,
-  `initiative-register.md`, and `ticket-prompt.md`.
+  `initiative-register.md`, `ticket-prompt.md`, `onboarding.md`, and
+  `branch-review.md`.
 - [`commands/code-pro-max.md`](commands/code-pro-max.md) — the `/code-pro-max`
   slash command for Claude Code (manual invocation, in addition to
   auto-trigger via `SKILL.md`'s description). Takes the phase/subcommand
-  as its argument, including `epic-to-dev {{epic content}}` and
-  `ticket-to-prompt <ticket-id>`.
+  as its argument, including `epic-to-dev {{epic content}}`,
+  `ticket-to-prompt <ticket-id>`, `onboarding <branch>`, and
+  `review <branch>`.
 - [`cursor-rule/code-pro-max.mdc`](cursor-rule/code-pro-max.mdc) — Cursor rule
   (auto-applies based on `description` match).
 - [`cursor-rule/commands/code-pro-max.md`](cursor-rule/commands/code-pro-max.md)

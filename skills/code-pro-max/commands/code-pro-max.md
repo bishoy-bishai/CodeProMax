@@ -1,6 +1,6 @@
 ---
 description: Discover, select, plan, validate, or maintain engineering initiatives
-argument-hint: [scan-path | "select <n or name>" | "<initiative name> --build" | "review" | "check drift" | "epic-to-dev {{epic content}}" | "ticket-to-prompt <ticket-id>"]
+argument-hint: [scan-path | "select <n or name>" | "<initiative name> --build" | "review" | "check drift" | "epic-to-dev {{epic content}}" | "ticket-to-prompt <ticket-id>" | "onboarding <branch>" | "review <branch>"]
 disable-model-invocation: false
 ---
 
@@ -39,6 +39,18 @@ Arguments: $ARGUMENTS
   [`../references/ticket-to-prompt.md`](../references/ticket-to-prompt.md)
   for the field mapping before generating it. This produces a prompt — it
   does not implement anything itself.
+- **"onboarding \<branch\>"** — the "Utility — Branch Onboarding & Review"
+  section in `SKILL.md`: generate an onboarding doc for that git branch's
+  change (what changed, why, key files, how to run/test it locally). Read
+  [`../references/branch-operations.md`](../references/branch-operations.md)
+  first. Read-only — never modifies code.
+- **"review \<branch\>"** — same section, the other operation: an
+  evidence-based code review of that branch's diff, ranked
+  MUST/SHOULD/COULD. **Only applies when `<branch>` resolves to a real git
+  ref** — resolve it (fetching if needed) before proceeding; if it doesn't
+  exist, report that rather than falling back to bare "review"'s
+  Phase 4 package check, which is a different operation with no branch
+  argument.
 
 Never fabricate — use `[ASSUMPTION: ...]`, `[UNKNOWN: ...]`, or
 `[PLACEHOLDER: ...]` exactly as `SKILL.md` specifies whenever evidence is
