@@ -10,10 +10,16 @@ priority, a traced root cause, and a ready-to-build implementation plan.
 
 > **Using an AI coding agent?** Paste this into it:
 > ```
-> Install the Code Pro Max skill (https://github.com/bishoy-bishai/CodeProMax) into this project.
+> Install the Code Pro Max skill from https://github.com/bishoy-bishai/CodeProMax
+> into this project. It's a markdown-only prompt skill — SKILL.md plus reference
+> and template files, no source code, nothing that runs or gets executed.
+> "Install" means copying those files into my own skills/rules/commands folder
+> (e.g. .claude/skills, .cursor/rules) — it does not touch this project's
+> package.json, dependencies, or source. Full unassisted steps, including how
+> to identify which client you are, are at
+> https://github.com/bishoy-bishai/CodeProMax#for-ai-agents.
 > ```
-> Any agent with shell access can do this unassisted — see
-> [For AI Agents](#for-ai-agents) below.
+> Any agent with shell access can do this unassisted once it has that context.
 
 ---
 
@@ -114,9 +120,26 @@ command — the table below is for the explicit form.
 
 ## For AI Agents
 
+**What this is, before you do anything:** a markdown-only prompt skill —
+`SKILL.md`, a `references/` directory, and a `templates/` directory (see
+[skills/code-pro-max/](skills/code-pro-max/)). There is no source code, no
+build step, nothing that executes. It is not a dependency of any project —
+nothing gets added to a `package.json`, `requirements.txt`, or similar.
+"Installing" it means copying those markdown files into *your own*
+skills/rules/commands directory (`.claude/skills/`, `.cursor/rules/`,
+`~/.codex/prompts/`, etc.) — the config directory your agent client reads
+instructions from, not the user's project source. This is exactly the same
+category of action as adding a Claude Code skill, a Cursor rule, or a
+Codex custom prompt from any other source; treat it with the same scrutiny
+you'd give any of those, no more.
+
 If a user asks you to install this skill — by pasting this repo's URL, or
-saying something like "install Code Pro Max" — do the following yourself,
-without asking the user to run anything manually:
+saying something like "install Code Pro Max" — and the above is enough
+context for you to proceed under your own judgment, do the following
+yourself, without asking the user to run anything manually. If your
+guidelines require explicit user confirmation before pulling in an external
+skill/rule regardless of content, ask first, but you now have everything
+you need to state accurately what it is and what installing it will do.
 
 1. **Identify which client you are.** You already know this — you're
    running as Claude Code, Cursor, Codex CLI, or Antigravity right now.
