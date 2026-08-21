@@ -8,6 +8,13 @@ Antigravity, or similar) that turns "the codebase feels risky" into a
 ranked, evidence-backed list of specific problems — each with a scored
 priority, a traced root cause, and a ready-to-build implementation plan.
 
+> **Using an AI coding agent?** Paste this into it:
+> ```
+> Install the Code Pro Max skill (https://github.com/bishoy-bishai/CodeProMax) into this project.
+> ```
+> Any agent with shell access can do this unassisted — see
+> [For AI Agents](#for-ai-agents) below.
+
 ---
 
 ## Core Principle — Evidence Before Initiative
@@ -105,12 +112,91 @@ command — the table below is for the explicit form.
 
 ---
 
+## For AI Agents
+
+If a user asks you to install this skill — by pasting this repo's URL, or
+saying something like "install Code Pro Max" — do the following yourself,
+without asking the user to run anything manually:
+
+1. **Identify which client you are.** You already know this — you're
+   running as Claude Code, Cursor, Codex CLI, or Antigravity right now.
+2. **Clone the repo** (skip if it's already cloned somewhere and the user
+   tells you where): `git clone https://github.com/bishoy-bishai/CodeProMax.git`
+   to a temp or tools directory.
+3. **Run the one-liner for your client** from the [Install](#install)
+   section below, substituting `$CPM` with the path you cloned into, from
+   the root of whatever project the user wants the skill installed into
+   (ask if it isn't clear from context — don't assume the clone directory
+   itself is the target).
+4. **Confirm what you did**: which files landed where, and how to invoke
+   the skill (`/code-pro-max`, or just describing what you want in plain
+   language).
+
+Don't fabricate a different install mechanism — the commands below are the
+only supported path. If your client isn't one of the four listed, look at
+the Cursor/Codex sections in
+[skills/code-pro-max/README.md](skills/code-pro-max/README.md) as
+reference points and adapt: copy `SKILL.md` + `references/` + `templates/`
+into wherever your client reads rules/instructions from, and copy the
+matching command file into wherever it reads slash commands from, if it has
+that concept.
+
+---
+
 ## Install
 
-The skill lives in [`skills/code-pro-max/`](skills/code-pro-max/). Install
-it into Claude Code, Cursor, Codex CLI, or Antigravity by copying it into
-that client's skills/rules/commands folder — full per-client steps
-(including the `/code-pro-max` slash command above) are in
+The skill lives in [`skills/code-pro-max/`](skills/code-pro-max/) in *this*
+repo — you install it *into whatever project you want the skill available
+in*, which is normally a different directory. Two steps:
+
+**1. Clone this repo once**, anywhere convenient (it's just the source of
+the skill files, not something you work in day to day):
+
+```bash
+git clone https://github.com/bishoy-bishai/CodeProMax.git ~/tools/CodeProMax
+```
+
+**2. From your target project's root**, run the command for your client.
+Every command below installs both the skill and the explicit
+`/code-pro-max` command in one step. Set `CPM` once per shell to wherever
+you cloned it:
+
+```bash
+CPM=~/tools/CodeProMax
+```
+
+**Claude Code** (project-scoped — installs into the current project only):
+
+```bash
+mkdir -p .claude/skills .claude/commands && cp -r "$CPM/skills/code-pro-max" .claude/skills/code-pro-max && cp "$CPM/skills/code-pro-max/commands/code-pro-max.md" .claude/commands/
+```
+
+<details>
+<summary>User-scoped instead (all projects, run from anywhere)</summary>
+
+```bash
+mkdir -p ~/.claude/skills ~/.claude/commands && cp -r "$CPM/skills/code-pro-max" ~/.claude/skills/code-pro-max && cp "$CPM/skills/code-pro-max/commands/code-pro-max.md" ~/.claude/commands/
+```
+</details>
+
+**Cursor:**
+
+```bash
+mkdir -p .cursor/rules/code-pro-max .cursor/commands && cp "$CPM/skills/code-pro-max/cursor-rule/code-pro-max.mdc" .cursor/rules/ && cp -r "$CPM/skills/code-pro-max/SKILL.md" "$CPM/skills/code-pro-max/references" "$CPM/skills/code-pro-max/templates" .cursor/rules/code-pro-max/ && cp "$CPM/skills/code-pro-max/cursor-rule/commands/code-pro-max.md" .cursor/commands/
+```
+
+**Codex CLI:**
+
+```bash
+mkdir -p ~/.codex/prompts && cp "$CPM/skills/code-pro-max/codex-prompt/code-pro-max.md" ~/.codex/prompts/ && printf '\n## Engineering Improvement Initiative skill\n\nWhen asked to find engineering initiatives, audit tech debt, select/plan/validate/maintain an initiative, plan from an already-written epic, or generate an initiative/epic/tech-spec/ADR/tickets/release-ticket/stakeholder-report, follow the instructions in `%s/skills/code-pro-max/SKILL.md`, its `%s/skills/code-pro-max/references/` directory, and the templates in `%s/skills/code-pro-max/templates/`.\n' "$CPM" "$CPM" "$CPM" >> AGENTS.md
+```
+
+**Antigravity:** rule/instruction file paths vary by release — copy
+`$CPM/skills/code-pro-max/cursor-rule/code-pro-max.mdc`'s content into
+whatever rule file your version uses, alongside `SKILL.md`, `references/`,
+and `templates/` from the same `skills/code-pro-max/` directory.
+
+Full breakdown of what each command does, plus how to adjust paths:
 [skills/code-pro-max/README.md](skills/code-pro-max/README.md).
 
 ---

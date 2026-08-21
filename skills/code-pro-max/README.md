@@ -46,6 +46,20 @@ itself with its own file-read/grep/`git` tools.
 
 ## Install
 
+All commands below are written to run from inside a clone of this repo:
+
+```bash
+git clone https://github.com/bishoy-bishai/CodeProMax.git
+cd CodeProMax
+```
+
+Then, **from your target project's root** (the project you actually want
+the skill available in — usually a different directory than the clone
+above), run the relevant command for your client. Replace `skills/...`
+paths with an absolute path to the clone (e.g. `~/tools/CodeProMax/skills/...`)
+if you're not running from inside it. For copy-paste one-liners that
+already handle this, see the [root README](../../README.md#install).
+
 ### Claude Code
 
 Copy (or symlink) this directory into your skills folder:
