@@ -28,13 +28,16 @@ itself with its own file-read/grep/`git` tools.
     quality gate, selection flow.
   - [`documentation-framework.md`](references/documentation-framework.md) —
     per-document audience/purpose/structure and the writing constitution.
+  - [`ticket-to-prompt.md`](references/ticket-to-prompt.md) — field mapping
+    and rules for converting a ticket into an AICraft-schema build prompt.
 - [`templates/`](templates/) — `initiative.md`, `epic.md`, `tech-spec.md`,
-  `adr.md`, `ticket.md`, `release-ticket.md`, `stakeholder-report.md`, and
-  `initiative-register.md`.
+  `adr.md`, `ticket.md`, `release-ticket.md`, `stakeholder-report.md`,
+  `initiative-register.md`, and `ticket-prompt.md`.
 - [`commands/code-pro-max.md`](commands/code-pro-max.md) — the `/code-pro-max`
   slash command for Claude Code (manual invocation, in addition to
   auto-trigger via `SKILL.md`'s description). Takes the phase/subcommand
-  as its argument, including `epic-to-dev {{epic content}}`.
+  as its argument, including `epic-to-dev {{epic content}}` and
+  `ticket-to-prompt <ticket-id>`.
 - [`cursor-rule/code-pro-max.mdc`](cursor-rule/code-pro-max.mdc) — Cursor rule
   (auto-applies based on `description` match).
 - [`cursor-rule/commands/code-pro-max.md`](cursor-rule/commands/code-pro-max.md)

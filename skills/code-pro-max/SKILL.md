@@ -1,6 +1,6 @@
 ---
 name: code-pro-max
-description: "Use this skill to turn a codebase into prioritized, evidence-backed engineering Initiatives and drive them through planning to implementation-ready tickets. Triggers: 'analyze this repository', 'show me improvement opportunities', 'find technical initiatives worth doing', 'create the initiative for #3', 'expand <initiative name>', 'generate the implementation plan', 'review the initiative', 'check for drift', 'update the tickets based on the tech spec', 'regenerate the release ticket', 'implement initiative #2', 'I already have an epic, generate the tech spec and tickets from it', 'epic-to-dev'. The agent itself reads files, greps, and runs git/test/dependency commands using its normal tools, classifies evidence, runs 5-Whys root cause analysis, scores initiatives, and writes/maintains a living initiative-register.md plus per-initiative planning documents (initiative, epic, tech spec, ADR, tickets, release ticket, stakeholder report). No fabricated claims — missing information is always [PLACEHOLDER], [UNKNOWN], [ASSUMPTION], or [HYPOTHESIS]."
+description: "Use this skill to turn a codebase into prioritized, evidence-backed engineering Initiatives and drive them through planning to implementation-ready tickets. Triggers: 'analyze this repository', 'show me improvement opportunities', 'find technical initiatives worth doing', 'create the initiative for #3', 'expand <initiative name>', 'generate the implementation plan', 'review the initiative', 'check for drift', 'update the tickets based on the tech spec', 'regenerate the release ticket', 'implement initiative #2', 'I already have an epic, generate the tech spec and tickets from it', 'epic-to-dev', 'turn this ticket into a build prompt', 'ticket-to-prompt'. The agent itself reads files, greps, and runs git/test/dependency commands using its normal tools, classifies evidence, runs 5-Whys root cause analysis, scores initiatives, and writes/maintains a living initiative-register.md plus per-initiative planning documents (initiative, epic, tech spec, ADR, tickets, release ticket, stakeholder report). No fabricated claims — missing information is always [PLACEHOLDER], [UNKNOWN], [ASSUMPTION], or [HYPOTHESIS]."
 disable-model-invocation: false
 ---
 
@@ -161,14 +161,23 @@ direction is understood** (Problem → Design → Implementation):
 4. **ADR** ([templates/adr.md](templates/adr.md)) — Architecture Decision
    Record for any architecturally significant or likely-to-be-revisited
    choice: alternatives, rationale, trade-offs, consequences.
-5. **Tickets** (`tickets/` directory, one file per ticket, from
-   [templates/ticket.md](templates/ticket.md)) — implementation-ready, each
-   validated against the INVEST gate:
-   [references/invest.md](references/invest.md) and
-   [references/story-decomposition.md](references/story-decomposition.md).
+5. **Tickets** (`tickets/` directory, from
+   [templates/ticket.md](templates/ticket.md)) — **generate the full list,
+   not a single example.** Enumerate one ticket per Scope item on the
+   Initiative (sliced per
+   [references/story-decomposition.md](references/story-decomposition.md)
+   when a scope item is really several vertical slices), as separate files
+   `tickets/{{slug}}-001.md`, `tickets/{{slug}}-002.md`, etc. — every scope
+   item must map to at least one ticket, and every ticket must map back to
+   a scope item. Each ticket is validated against the INVEST gate
+   ([references/invest.md](references/invest.md)) before being marked
+   implementation-ready. This step is not optional and does not collapse
+   into the Release Ticket — the Release Ticket is a rollout plan for the
+   tickets, not a substitute for them.
 6. **Release Ticket** ([templates/release-ticket.md](templates/release-ticket.md))
-   — release objective, changes included, pre-release checklist, rollout
-   plan, rollback plan, post-release validation, success metrics.
+   — release objective, changes included (linking every ticket file
+   generated in step 5), pre-release checklist, rollout plan, rollback
+   plan, post-release validation, success metrics.
 7. **Stakeholder / Product Owner Report**
    ([templates/stakeholder-report.md](templates/stakeholder-report.md)) —
    translate the technical change into business language: what changed, why
@@ -179,6 +188,21 @@ Missing information at any step is `[PLACEHOLDER]`, never invented.
 
 ---
 
+## Utility — Ticket → Build Prompt
+
+Once a ticket exists, convert it into a self-contained build prompt with
+`/code-pro-max ticket-to-prompt <ticket-id>`. This does not implement
+anything — it produces the prompt a coding agent (this one, another
+session, or another tool) would use to actually build the ticket,
+formatted to the AICraft prompt schema
+(https://github.com/bishoy-bishai/AICraft/tree/main/skill): CONTEXT, GOAL,
+CONSTRAINTS, INPUTS, EXPECTED OUTPUT, ACCEPTANCE CRITERIA, DEFINITION OF
+DONE. Full field-mapping rules and the AICraft-awareness convention:
+[references/ticket-to-prompt.md](references/ticket-to-prompt.md). Template:
+[templates/ticket-prompt.md](templates/ticket-prompt.md).
+
+---
+
 ## Phase 4 — Validate
 
 Before considering an initiative complete, run a consistency review:
@@ -186,6 +210,10 @@ Before considering an initiative complete, run a consistency review:
 - Initiative aligns with Tech Spec.
 - Epic covers the Initiative.
 - Tech Spec has implementation coverage in tickets.
+- **Every Initiative Scope item has at least one ticket in `tickets/`, and
+  every ticket maps back to a Scope item.** A package with a Release Ticket
+  but zero or one ticket file for a multi-item scope is incomplete — go
+  back to Phase 3 step 5, not forward.
 - Tickets have clear, testable acceptance criteria and pass INVEST.
 - Release ticket covers the planned changes.
 - Stakeholder report reflects actual scope.
@@ -242,6 +270,7 @@ implementation workflow, not silent code changes.
 | Discovery | "Analyze this repository", "Show me improvement opportunities", "Find technical initiatives worth doing" |
 | Planning | "Create the initiative for #3", "Expand Improve Observability", "Generate the implementation plan" |
 | Epic → Dev | `/code-pro-max epic-to-dev {{epic content}}` — skip Discover/Select, plan the rest from a developer-supplied epic |
+| Ticket → Prompt | `/code-pro-max ticket-to-prompt <ticket-id>` — convert an existing ticket into a self-contained, AICraft-schema build prompt |
 | Validation | "Review the initiative", "Check for drift", "Are the tickets aligned with the tech spec?" |
 | Synchronization | "Update the tickets based on the tech spec", "Update the stakeholder report", "Regenerate the release ticket" |
 | Future execution | "Implement initiative #2" (must trigger explicit approval, never silent implementation) |
@@ -270,6 +299,7 @@ detection.
 | [references/tech-spec-standard.md](references/tech-spec-standard.md) | Tech Spec quality criteria, full anatomy, review gate |
 | [references/initiative-lifecycle.md](references/initiative-lifecycle.md) | Initiative identity/naming/folders, register, traceability, duplicate detection, quality gate, selection flow |
 | [references/documentation-framework.md](references/documentation-framework.md) | Per-document audience/purpose/structure, writing constitution, diagramming standard, reference hierarchy |
+| [references/ticket-to-prompt.md](references/ticket-to-prompt.md) | Field mapping and rules for converting a ticket into an AICraft-schema build prompt |
 
 These are mental models and reference structure, not rigid checklists. **The
 repository's actual evidence and conventions always take precedence.**
