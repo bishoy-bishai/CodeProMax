@@ -181,6 +181,67 @@ termination reason stated.
 
 ---
 
+## §04 — Finding Confidence & Validation
+
+Shared by any operation in this skill that produces a list of discrete
+findings — Discover's Top 5 opportunities and the branch review operation
+(see [branch-operations.md](branch-operations.md)) both use this.
+
+**The subject is what actually exists, not presumed intent.** Code, tests,
+repository configuration, and git history are authoritative for what a
+system *does*. Commit messages, TODOs, comments, ticket titles, branch
+names, and PR descriptions are context for *intent* — useful for
+understanding why something was attempted, never proof that it was
+implemented correctly. Never turn an intent signal into an implementation
+fact.
+
+**Finding confidence tiers** (distinct from the Fact/Inference/Hypothesis
+classification used for Initiative problem statements — this is for
+discrete findings within a review-style output):
+- **Confirmed** — the cited code/config/test directly demonstrates the
+  issue; no interpretation required. Can justify `MUST`.
+- **Likely** — strong circumstantial evidence (pattern matches a known
+  failure mode, corroborated by 2+ independent signals) but not directly
+  observed failing. Should normally cap at `SHOULD`.
+- **Potential** — plausible but thin; single weak signal. Should normally
+  cap at `COULD`, or be discarded rather than reported.
+
+**Finding validation** — before any finding is included in output, verify:
+1. It has an exact `file:line` location (or equivalent precise locator).
+2. The cited code/content actually exists at that location as described.
+3. The snippet directly supports the claim — not adjacent or unrelated
+   code.
+4. It isn't merely a style/taste preference presented as a defect.
+5. A concrete failure scenario can be stated when the finding claims a bug
+   (what input/state triggers it, what happens, what the user/system
+   experiences) — vague language like "this could cause problems" fails
+   validation.
+6. It isn't a duplicate of another finding already included.
+7. Its confidence tier justifies its assigned strength (`MUST`/`SHOULD`/
+   `COULD` — see `documentation-framework.md`'s Recommendation Strength).
+8. It's actually relevant to the material under review (the diff, or a
+   directly affected consumer) — not a pre-existing issue merely noticed
+   in passing, unless the operation's scope explicitly includes that.
+
+If any check fails, discard the finding or downgrade its confidence/
+strength — don't include it as-is.
+
+**Deduplicate root causes, not just wording.** If one underlying defect
+produces symptoms visible in multiple categories (e.g. one bad API design
+causes an architecture leak, a correctness bug, and a test gap), report it
+once under the most actionable category and note the secondary
+consequences inside that same finding, rather than three separate entries.
+
+**Never fabricate a finding to look thorough.** An empty category — no
+security issues, no performance issues — is a valid, honest result. Padding
+output with "no issues found in X" for every unused category is the
+opposite of what evidence-based reporting requires; simply omit categories
+with nothing to report, while still confirming internally that each was
+actually considered (see the calling operation's own coverage-tracking
+rule, if it has one).
+
+---
+
 ## Observability Evidence Model
 
 Observability is first-class reconnaissance. **Do not infer production
