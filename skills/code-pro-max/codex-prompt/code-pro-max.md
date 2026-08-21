@@ -16,6 +16,11 @@ Arguments: $ARGUMENTS
 - "review" / "check drift" → Phase 4/5 consistency or drift check.
 - "update tickets" / "update stakeholder report" / "regenerate release
   ticket" → Phase 5 resync against the current tech spec/initiative.
+- "epic-to-dev {{epic content}}" → the "Alternate Entry Point — Epic →
+  Dev" flow in `SKILL.md`: skip Discover/Select and plan the rest of the
+  package (tech spec, ADR, tickets, release ticket, stakeholder report)
+  from an epic you already wrote. `{{epic content}}` may be pasted text or
+  a file path — if it's a path, read that file first.
 
 Never fabricate — use `[ASSUMPTION: ...]`, `[UNKNOWN: ...]`, or
 `[PLACEHOLDER: ...]` exactly as `SKILL.md` specifies. Never implement code

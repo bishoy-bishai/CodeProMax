@@ -33,22 +33,14 @@ itself with its own file-read/grep/`git` tools.
   `initiative-register.md`.
 - [`commands/code-pro-max.md`](commands/code-pro-max.md) — the `/code-pro-max`
   slash command for Claude Code (manual invocation, in addition to
-  auto-trigger via `SKILL.md`'s description).
-- [`commands/epic-to-dev.md`](commands/epic-to-dev.md) — the
-  `/epic-to-dev {{epic content}}` slash command for Claude Code: skip
-  Discover/Select and plan the rest of the package from an
-  already-written epic.
+  auto-trigger via `SKILL.md`'s description). Takes the phase/subcommand
+  as its argument, including `epic-to-dev {{epic content}}`.
 - [`cursor-rule/code-pro-max.mdc`](cursor-rule/code-pro-max.mdc) — Cursor rule
   (auto-applies based on `description` match).
 - [`cursor-rule/commands/code-pro-max.md`](cursor-rule/commands/code-pro-max.md)
   — Cursor's `/code-pro-max` manual command.
-- [`cursor-rule/commands/epic-to-dev.md`](cursor-rule/commands/epic-to-dev.md)
-  — Cursor's `/epic-to-dev` manual command.
 - [`codex-prompt/code-pro-max.md`](codex-prompt/code-pro-max.md) — Codex CLI
   custom prompt, invoked as `/code-pro-max` once placed in `~/.codex/prompts/`.
-- [`codex-prompt/epic-to-dev.md`](codex-prompt/epic-to-dev.md) — Codex CLI
-  custom prompt, invoked as `/epic-to-dev` once placed in
-  `~/.codex/prompts/`.
 
 ---
 
@@ -75,16 +67,16 @@ auto-trigger), also copy the command file into your commands folder:
 
 ```bash
 mkdir -p /path/to/your-project/.claude/commands
-cp skills/code-pro-max/commands/code-pro-max.md skills/code-pro-max/commands/epic-to-dev.md /path/to/your-project/.claude/commands/
+cp skills/code-pro-max/commands/code-pro-max.md /path/to/your-project/.claude/commands/
 # or, user-scoped:
-mkdir -p ~/.claude/commands && cp skills/code-pro-max/commands/code-pro-max.md skills/code-pro-max/commands/epic-to-dev.md ~/.claude/commands/
+mkdir -p ~/.claude/commands && cp skills/code-pro-max/commands/code-pro-max.md ~/.claude/commands/
 ```
 
 Usage: `/code-pro-max` (full scan), `/code-pro-max src/api` (scoped scan),
 `/code-pro-max "checkout latency" --build` (build out one initiative's
-docs), or `/epic-to-dev {{epic content}}` (already have an epic — skip
-straight to tech spec, ADR, tickets, release ticket, and stakeholder
-report).
+docs), or `/code-pro-max epic-to-dev {{epic content}}` (already have an
+epic — skip straight to tech spec, ADR, tickets, release ticket, and
+stakeholder report).
 
 ### Cursor
 
@@ -108,11 +100,11 @@ For an explicit manual command, also copy the command file:
 
 ```bash
 mkdir -p /path/to/your-project/.cursor/commands
-cp skills/code-pro-max/cursor-rule/commands/code-pro-max.md skills/code-pro-max/cursor-rule/commands/epic-to-dev.md /path/to/your-project/.cursor/commands/
+cp skills/code-pro-max/cursor-rule/commands/code-pro-max.md /path/to/your-project/.cursor/commands/
 ```
 
-Invoke with `/code-pro-max` or `/epic-to-dev {{epic content}}` in Cursor's
-chat.
+Invoke with `/code-pro-max` or `/code-pro-max epic-to-dev {{epic content}}`
+in Cursor's chat.
 
 ### Codex CLI
 
@@ -141,11 +133,11 @@ prompts folder:
 
 ```bash
 mkdir -p ~/.codex/prompts
-cp skills/code-pro-max/codex-prompt/code-pro-max.md skills/code-pro-max/codex-prompt/epic-to-dev.md ~/.codex/prompts/
+cp skills/code-pro-max/codex-prompt/code-pro-max.md ~/.codex/prompts/
 ```
 
-Invoke with `/code-pro-max` or `/epic-to-dev {{epic content}}` in a Codex
-CLI session.
+Invoke with `/code-pro-max` or `/code-pro-max epic-to-dev {{epic content}}`
+in a Codex CLI session.
 
 ### Antigravity
 
