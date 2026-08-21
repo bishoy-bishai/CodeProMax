@@ -1,6 +1,6 @@
 ---
 name: code-pro-max
-description: "Use this skill to turn a codebase into prioritized, evidence-backed engineering Initiatives and drive them through planning to implementation-ready tickets. Triggers: 'analyze this repository', 'show me improvement opportunities', 'find technical initiatives worth doing', 'create the initiative for #3', 'expand <initiative name>', 'generate the implementation plan', 'review the initiative', 'check for drift', 'update the tickets based on the tech spec', 'regenerate the release ticket', 'implement initiative #2', 'I already have an epic, generate the tech spec and tickets from it', 'epic-to-dev', 'turn this ticket into a build prompt', 'ticket-to-prompt'. The agent itself reads files, greps, and runs git/test/dependency commands using its normal tools, classifies evidence, runs 5-Whys root cause analysis, scores initiatives, and writes/maintains a living initiative-register.md plus per-initiative planning documents (initiative, epic, tech spec, ADR, tickets, release ticket, stakeholder report). No fabricated claims — missing information is always [PLACEHOLDER], [UNKNOWN], [ASSUMPTION], or [HYPOTHESIS]."
+description: "Use this skill to turn a codebase into prioritized, evidence-backed engineering Initiatives and drive them through planning to implementation-ready tickets. Triggers: 'analyze this repository', 'show me improvement opportunities', 'find technical initiatives worth doing', 'create the initiative for #3', 'expand <initiative name>', 'generate the implementation plan', 'review the initiative', 'check for drift', 'update the tickets based on the tech spec', 'regenerate the release ticket', 'implement initiative #2', 'I already have an epic, generate the tech spec and tickets from it', 'epic-to-dev', 'turn this ticket into a build prompt', 'ticket-to-prompt', 'onboard me on this branch', 'review this branch'. The agent itself reads files, greps, and runs git/test/dependency commands using its normal tools, classifies evidence, runs 5-Whys root cause analysis, scores initiatives, and writes/maintains a living initiative-register.md plus per-initiative planning documents (initiative, epic, tech spec, ADR, tickets, release ticket, stakeholder report). No fabricated claims — missing information is always [PLACEHOLDER], [UNKNOWN], [ASSUMPTION], or [HYPOTHESIS]."
 disable-model-invocation: false
 ---
 
@@ -203,6 +203,42 @@ DONE. Full field-mapping rules and the AICraft-awareness convention:
 
 ---
 
+## Utility — Branch Onboarding & Review
+
+Two read-only operations against an actual git branch (not a planning
+document) — full mechanics in
+[references/branch-operations.md](references/branch-operations.md):
+
+Both start from the same evidence-gathering pipeline (repo state → resolve
+base branch → confirm the target branch is a real ref → gather the diff →
+trace it to a ticket/Initiative → check scope/intent alignment → inspect
+shared-component consumers) before producing anything.
+
+- **`/code-pro-max onboarding <branch>`** — produces a handoff document
+  for someone unfamiliar with the branch's change: what changed and why,
+  before/after behavior, a short how-it-works model, ranked key files,
+  how to run/test it locally, and Acceptance Criteria mapped to evidence
+  when a ticket/Initiative was traced. Template:
+  [templates/onboarding.md](templates/onboarding.md).
+- **`/code-pro-max review <branch>`** — an evidence-based code review of
+  the branch's diff against its base, in a fixed 9-category order (Scope
+  & Intent Alignment → Architecture → Domain → Correctness → Security →
+  Performance → Readability → Testing → Documentation), each finding
+  validated per
+  [references/evidence-and-analysis.md](references/evidence-and-analysis.md)
+  §04 and tagged `MUST`/`SHOULD`/`COULD` per
+  [references/documentation-framework.md](references/documentation-framework.md).
+  Template: [templates/branch-review.md](templates/branch-review.md). This
+  is distinct from bare `/code-pro-max review` (no branch argument), which
+  runs the Phase 4 planning-package consistency check instead — resolve
+  `<branch>` against real git refs first; if it doesn't exist, that's a
+  branch-review request that failed, not a signal to fall back to Phase 4.
+
+Neither operation modifies code, and neither is a substitute for the
+explicit-approval step required before implementing any fix they surface.
+
+---
+
 ## Phase 4 — Validate
 
 Before considering an initiative complete, run a consistency review:
@@ -271,6 +307,8 @@ implementation workflow, not silent code changes.
 | Planning | "Create the initiative for #3", "Expand Improve Observability", "Generate the implementation plan" |
 | Epic → Dev | `/code-pro-max epic-to-dev {{epic content}}` — skip Discover/Select, plan the rest from a developer-supplied epic |
 | Ticket → Prompt | `/code-pro-max ticket-to-prompt <ticket-id>` — convert an existing ticket into a self-contained, AICraft-schema build prompt |
+| Branch Onboarding | `/code-pro-max onboarding <branch>` — generate an onboarding doc for a branch's change |
+| Branch Review | `/code-pro-max review <branch>` — evidence-based code review of a branch's diff |
 | Validation | "Review the initiative", "Check for drift", "Are the tickets aligned with the tech spec?" |
 | Synchronization | "Update the tickets based on the tech spec", "Update the stakeholder report", "Regenerate the release ticket" |
 | Future execution | "Implement initiative #2" (must trigger explicit approval, never silent implementation) |
@@ -279,7 +317,9 @@ implementation workflow, not silent code changes.
 
 ## Differentiator
 
-Not a generic code reviewer, not merely a Markdown generator. Purpose: turn
+Not just a generic code reviewer, and not merely a Markdown generator.
+Branch review and onboarding are utilities in service of the same
+evidence-first discipline — the core purpose is to turn
 technical debt and engineering observations into prioritized, evidence-
 backed, executable engineering initiatives — combining evidence-based
 discovery, prioritization, structured planning, implementation-ready
@@ -300,6 +340,7 @@ detection.
 | [references/initiative-lifecycle.md](references/initiative-lifecycle.md) | Initiative identity/naming/folders, register, traceability, duplicate detection, quality gate, selection flow |
 | [references/documentation-framework.md](references/documentation-framework.md) | Per-document audience/purpose/structure, writing constitution, diagramming standard, reference hierarchy |
 | [references/ticket-to-prompt.md](references/ticket-to-prompt.md) | Field mapping and rules for converting a ticket into an AICraft-schema build prompt |
+| [references/branch-operations.md](references/branch-operations.md) | Branch evidence gathering, onboarding doc generation, and the 8-category evidence-based branch review |
 
 These are mental models and reference structure, not rigid checklists. **The
 repository's actual evidence and conventions always take precedence.**

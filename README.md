@@ -97,6 +97,17 @@ it converts the ticket, plus its Tech Spec and ADR context, into a
 self-contained prompt in the [AICraft](https://github.com/bishoy-bishai/AICraft/tree/main/skill)
 schema, ready to hand to whichever coding agent will actually build it.
 
+**Already have a branch, not a planning package?** `/code-pro-max
+onboarding <branch>` and `/code-pro-max review <branch>` work directly
+against a git branch's diff — no Initiative required, and both start by
+resolving the branch's base, confirming it's a real ref, and tracing it
+back to a ticket/Initiative if one exists. Onboarding produces a "what
+changed and why" doc (before/after behavior, ranked key files, how to run
+it) for someone new to the branch; review runs an evidence-based,
+MUST/SHOULD/COULD-ranked code review in a fixed order (Scope & Intent →
+Architecture → Domain → Correctness → Security → Performance → Readability
+→ Testing → Documentation). Both are read-only.
+
 **Approval stays explicit.** The skill never implements an initiative
 merely because it discovered one — "implement initiative #2" triggers an
 explicit implementation workflow, not silent code changes.
@@ -118,10 +129,12 @@ command — the table below is for the explicit form.
 | `/code-pro-max <path>` | Same as above, scoped to one path (e.g. `/code-pro-max src/api`) instead of the whole repo. |
 | `/code-pro-max select <n or name>` | Runs **Select**: picks an initiative from the last Discover pass (or by name) as the planning target, checking the register for duplicates first. |
 | `/code-pro-max "<initiative name>" --build` | Runs **Plan** end to end for that initiative: Initiative brief, Epic, Tech Spec, ADR, tickets, Release Ticket, Stakeholder Report. |
-| `/code-pro-max review` or `/code-pro-max "check drift"` | Runs **Validate**/**Maintain**: a consistency check across the existing package, or a drift check against the register. |
+| `/code-pro-max review` or `/code-pro-max "check drift"` | Runs **Validate**/**Maintain**: a consistency check across the existing *planning package*, or a drift check against the register. No branch argument — see `review <branch>` below for reviewing actual code. |
 | `/code-pro-max "update tickets"` / `"update stakeholder report"` / `"regenerate release ticket"` | Runs **Maintain**: resynchronizes one artifact against the current Tech Spec/Initiative. |
 | `/code-pro-max epic-to-dev {{epic content}}` | The alternate entry point: skips Discover/Select and plans the rest of the package (Tech Spec → ADR → Tickets → Release Ticket → Stakeholder Report) from an epic you already wrote. Accepts pasted content or a file path. |
 | `/code-pro-max ticket-to-prompt <ticket-id>` | Converts an existing ticket into a self-contained build prompt, formatted to the [AICraft](https://github.com/bishoy-bishai/AICraft/tree/main/skill) prompt schema (Context/Goal/Constraints/Inputs/Expected Output/Definition of Done). Produces a prompt — doesn't implement anything itself. |
+| `/code-pro-max onboarding <branch>` | Generates an onboarding doc for a git branch's change: what changed, why (traced to a linked ticket/Initiative when findable), key files to read first, how to run/test it locally. Read-only. |
+| `/code-pro-max review <branch>` | An evidence-based code review of that branch's diff, in a fixed order (Scope & Intent → Architecture → Domain → Correctness → Security → Performance → Readability → Testing → Documentation), each finding ranked MUST/SHOULD/COULD with a confidence tier. Read-only — produces a report, not a fix or a verdict. |
 
 ---
 
@@ -233,12 +246,13 @@ Full breakdown of what each command does, plus how to adjust paths:
 
 ## Differentiator
 
-Not a generic code reviewer, not merely a Markdown generator. Purpose: turn
-technical debt and engineering observations into prioritized, evidence-
-backed, executable engineering initiatives — combining evidence-based
-discovery, prioritization, structured planning, implementation-ready
-tickets, release planning, stakeholder communication, and consistency/drift
-detection.
+Not just a generic code reviewer, and not merely a Markdown generator.
+Branch review and onboarding are utilities in service of the same
+evidence-first discipline — the core purpose is to turn technical debt and
+engineering observations into prioritized, evidence-backed, executable
+engineering initiatives — combining evidence-based discovery,
+prioritization, structured planning, implementation-ready tickets, release
+planning, stakeholder communication, and consistency/drift detection.
 
 ---
 
