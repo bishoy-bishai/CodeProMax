@@ -1,6 +1,6 @@
 ---
 description: Discover, select, plan, validate, or maintain engineering initiatives
-argument-hint: [scan-path | "select <n or name>" | "<initiative name> --build" | "review" | "check drift"]
+argument-hint: [scan-path | "select <n or name>" | "<initiative name> --build" | "review" | "check drift" | "epic-to-dev {{epic content}}"]
 disable-model-invocation: false
 ---
 
@@ -25,6 +25,12 @@ Arguments: $ARGUMENTS
 - **"update tickets"**, **"update stakeholder report"**, **"regenerate
   release ticket"** — Phase 5: resynchronize the named artifact against the
   current tech spec / initiative.
+- **"epic-to-dev {{epic content}}"** — the alternate entry point in
+  `SKILL.md`'s "Alternate Entry Point — Epic → Dev" section: skip
+  Discover/Select and plan the rest of the package (tech spec, ADR,
+  tickets, release ticket, stakeholder report) from an epic you already
+  wrote. `{{epic content}}` may be pasted text or a file path — if it's a
+  path, read that file first.
 
 Never fabricate — use `[ASSUMPTION: ...]`, `[UNKNOWN: ...]`, or
 `[PLACEHOLDER: ...]` exactly as `SKILL.md` specifies whenever evidence is
