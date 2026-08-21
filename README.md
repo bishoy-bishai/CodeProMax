@@ -91,6 +91,12 @@ the epic touches, and goes straight into Plan (Tech Spec → ADR → Tickets →
 Release Ticket → Stakeholder Report) and Validate. See
 `/code-pro-max epic-to-dev` below.
 
+**Once a ticket exists, turn it into a build prompt.**
+`/code-pro-max ticket-to-prompt <ticket-id>` doesn't implement anything —
+it converts the ticket, plus its Tech Spec and ADR context, into a
+self-contained prompt in the [AICraft](https://github.com/bishoy-bishai/AICraft/tree/main/skill)
+schema, ready to hand to whichever coding agent will actually build it.
+
 **Approval stays explicit.** The skill never implements an initiative
 merely because it discovered one — "implement initiative #2" triggers an
 explicit implementation workflow, not silent code changes.
@@ -115,6 +121,7 @@ command — the table below is for the explicit form.
 | `/code-pro-max review` or `/code-pro-max "check drift"` | Runs **Validate**/**Maintain**: a consistency check across the existing package, or a drift check against the register. |
 | `/code-pro-max "update tickets"` / `"update stakeholder report"` / `"regenerate release ticket"` | Runs **Maintain**: resynchronizes one artifact against the current Tech Spec/Initiative. |
 | `/code-pro-max epic-to-dev {{epic content}}` | The alternate entry point: skips Discover/Select and plans the rest of the package (Tech Spec → ADR → Tickets → Release Ticket → Stakeholder Report) from an epic you already wrote. Accepts pasted content or a file path. |
+| `/code-pro-max ticket-to-prompt <ticket-id>` | Converts an existing ticket into a self-contained build prompt, formatted to the [AICraft](https://github.com/bishoy-bishai/AICraft/tree/main/skill) prompt schema (Context/Goal/Constraints/Inputs/Expected Output/Definition of Done). Produces a prompt — doesn't implement anything itself. |
 
 ---
 

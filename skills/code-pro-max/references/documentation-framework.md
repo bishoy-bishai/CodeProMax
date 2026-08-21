@@ -134,6 +134,13 @@ or decisions are `[PLACEHOLDER]`, never invented.
 - **Purpose:** Answer *what exactly needs to be implemented, and how do we
   know it's correct?*
 - **Structure:** [templates/ticket.md](../templates/ticket.md).
+- **Generate the full list, not one representative example.** One ticket
+  per Initiative Scope item (sliced further per
+  [story-decomposition.md](story-decomposition.md) where a scope item is
+  really several vertical slices), each as its own file in `tickets/`.
+  Every scope item needs a ticket; every ticket needs a scope item it maps
+  back to. Producing only a Release Ticket, or only one ticket for a
+  multi-item scope, fails the Phase 4 Validate gate.
 - **User story format** (where appropriate):
   ```
   As a <role>

@@ -21,6 +21,12 @@ Arguments: $ARGUMENTS
   package (tech spec, ADR, tickets, release ticket, stakeholder report)
   from an epic you already wrote. `{{epic content}}` may be pasted text or
   a file path — if it's a path, read that file first.
+- "ticket-to-prompt <ticket-id>" → the "Utility — Ticket → Build Prompt"
+  section in `SKILL.md`: convert an existing ticket into a self-contained
+  build prompt formatted to the AICraft prompt schema (CONTEXT/GOAL/
+  CONSTRAINTS/INPUTS/EXPECTED OUTPUT/ACCEPTANCE CRITERIA/DEFINITION OF
+  DONE). Read `references/ticket-to-prompt.md` for the field mapping
+  first. Produces a prompt — does not implement anything itself.
 
 Never fabricate — use `[ASSUMPTION: ...]`, `[UNKNOWN: ...]`, or
 `[PLACEHOLDER: ...]` exactly as `SKILL.md` specifies. Never implement code
