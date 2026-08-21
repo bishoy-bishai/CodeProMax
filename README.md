@@ -75,8 +75,8 @@ Five phases, run by the agent against your repository:
 entirely: give the agent a written epic and it backfills a minimal
 Initiative for traceability, runs a scoped evidence pass limited to what
 the epic touches, and goes straight into Plan (Tech Spec → ADR → Tickets →
-Release Ticket → Stakeholder Report) and Validate. See the `/epic-to-dev`
-command below.
+Release Ticket → Stakeholder Report) and Validate. See
+`/code-pro-max epic-to-dev` below.
 
 **Approval stays explicit.** The skill never implements an initiative
 merely because it discovered one — "implement initiative #2" triggers an
@@ -88,9 +88,10 @@ Full detail: [skills/code-pro-max/SKILL.md](skills/code-pro-max/SKILL.md).
 
 ## Commands
 
-Once installed (see [Install](#install) below), each client gets two slash
-commands. Both also auto-trigger from natural language, even without
-typing the command — the table below is for the explicit form.
+Once installed (see [Install](#install) below), each client gets one slash
+command, `/code-pro-max`, which reads its argument to decide which phase to
+run. It also auto-triggers from natural language, even without typing the
+command — the table below is for the explicit form.
 
 | Command | What it does |
 |---|---|
@@ -100,7 +101,7 @@ typing the command — the table below is for the explicit form.
 | `/code-pro-max "<initiative name>" --build` | Runs **Plan** end to end for that initiative: Initiative brief, Epic, Tech Spec, ADR, tickets, Release Ticket, Stakeholder Report. |
 | `/code-pro-max review` or `/code-pro-max "check drift"` | Runs **Validate**/**Maintain**: a consistency check across the existing package, or a drift check against the register. |
 | `/code-pro-max "update tickets"` / `"update stakeholder report"` / `"regenerate release ticket"` | Runs **Maintain**: resynchronizes one artifact against the current Tech Spec/Initiative. |
-| `/epic-to-dev {{epic content}}` | The alternate entry point: skips Discover/Select and plans the rest of the package (Tech Spec → ADR → Tickets → Release Ticket → Stakeholder Report) from an epic you already wrote. Accepts pasted content or a file path. |
+| `/code-pro-max epic-to-dev {{epic content}}` | The alternate entry point: skips Discover/Select and plans the rest of the package (Tech Spec → ADR → Tickets → Release Ticket → Stakeholder Report) from an epic you already wrote. Accepts pasted content or a file path. |
 
 ---
 
@@ -109,7 +110,7 @@ typing the command — the table below is for the explicit form.
 The skill lives in [`skills/code-pro-max/`](skills/code-pro-max/). Install
 it into Claude Code, Cursor, Codex CLI, or Antigravity by copying it into
 that client's skills/rules/commands folder — full per-client steps
-(including both slash commands above) are in
+(including the `/code-pro-max` slash command above) are in
 [skills/code-pro-max/README.md](skills/code-pro-max/README.md).
 
 ---
