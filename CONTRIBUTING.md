@@ -1,51 +1,58 @@
-# Contributing to Code Pro Max
+# Contributing to the Engineering Improvement Initiative Skill
+
+This repo is a skill — `skills/code-pro-max/SKILL.md`, its
+`references/` directory, and its `templates/` — plus the client-specific
+entry points (`commands/`, `cursor-rule/`, `codex-prompt/`) that install it
+into Claude Code, Cursor, Codex CLI, and Antigravity. There is no code to
+build or test; contributions are edits to these markdown files.
 
 ## Before You Start
 
-Read [docs/DEVELOPER-GUIDE.md](./DEVELOPER-GUIDE.md) for the layering rules
-and the "no fabrication" convention that shapes every generator and analyzer
-in this codebase. Code that invents plausible-looking data instead of marking
-it `[UNKNOWN]`/`[PLACEHOLDER]` will not be merged, regardless of how complete
-it looks.
+Read [skills/code-pro-max/SKILL.md](skills/code-pro-max/SKILL.md) end to
+end. The rule that shapes every file in this repo: **never fabricate.**
+Any instruction that would cause the agent to invent a number, owner, date,
+or fact instead of marking it `[PLACEHOLDER]`, `[UNKNOWN]`,
+`[ASSUMPTION]`, or `[HYPOTHESIS]` will not be merged, regardless of how
+complete it looks.
 
 ## Workflow
 
 1. Fork or branch from `main`.
-2. Make your change, following the conventions in the Developer Guide
-   (explicit `.ts` import extensions, `T | null` over `T?`, no `any`).
-3. Add or update tests under the relevant `__tests__/` directory. New
-   generator sections, analyzers, or commands need tests, not just an
-   implementation.
-4. Run `npm test` and `npm run typecheck` locally. Note the typecheck caveat
-   in the Developer Guide — it currently reports pre-existing `.ts`-extension
-   errors project-wide; don't let that block you, but don't introduce *new*
-   categories of type error either (missing exports, wrong types, etc.).
-5. Open a PR describing what changed and why. If you're adding a document
-   generator, ticket type, or command, link the relevant section of the
-   Developer Guide you followed.
+2. Make your change in `SKILL.md`, `skills/code-pro-max/references/*.md`,
+   or `skills/code-pro-max/templates/*.md`.
+3. If you change a section heading, file name, or add/remove a
+   reference/template, update every file that links to it —
+   `SKILL.md`, the other `references/*.md` files, and the
+   `commands/`/`cursor-rule/`/`codex-prompt/` entry points all cross-link
+   each other. A broken relative link is a broken skill.
+4. Keep the phase structure intact (Discover → Select → Plan → Validate →
+   Maintain) unless the change is specifically about restructuring it —
+   most edits should slot into an existing phase/reference file rather than
+   inventing a new top-level concept.
+5. Open a PR describing what changed and why.
 
 ## Commit Style
 
-This repo has been using short, imperative commit subjects prefixed with
-`feat:`/`fix:`/`docs:`/`test:` (see `git log` for examples). Keep the body
-focused on *why*, not a restatement of the diff.
+Short, imperative commit subjects prefixed with `feat:`/`fix:`/`docs:`
+(see `git log` for examples). Keep the body focused on *why*, not a
+restatement of the diff.
 
-## Code Review Checklist
+## Review Checklist
 
-- Does new generator/analyzer output ever assert something not backed by real
-  data? If so, it needs a `[PLACEHOLDER]`/`[UNKNOWN]`/`[ASSUMPTION]` marker
-  instead.
-- Are Zod schemas in `src/schemas/schemas.ts` updated in lockstep with any
-  type change in `src/schemas/types.ts`? They are hand-kept in sync, not
-  generated from each other.
-- Does a new state transition or guard get added to
-  `src/core/state-machine.ts` (executable guards) *and* documented in
-  `src/schemas/state-machine.ts` (the string-based schema-layer definition)?
-- Do new commands or file paths go through `src/commands/paths.ts` rather than
-  constructing paths ad hoc?
+- Does the changed instruction ever ask the agent to assert something not
+  backed by real evidence? If so, it needs an explicit
+  `[PLACEHOLDER]`/`[UNKNOWN]`/`[ASSUMPTION]`/`[HYPOTHESIS]` marker instead.
+- Do all relative markdown links in the changed file still resolve? (Quick
+  check: `grep -oE '\]\([a-zA-Z0-9/_.-]+\.md\)' <file> | tr -d '()' | while
+  read f; do test -f "$(dirname <file>)/$f" || echo "MISSING $f"; done`)
+- If you added a new template, does `SKILL.md` reference it from the phase
+  where it's generated, and does the relevant `references/*.md` file
+  describe when/how to fill it in?
+- If you changed a client entry point (`commands/`, `cursor-rule/`,
+  `codex-prompt/`), did you update the corresponding install instructions
+  in [skills/code-pro-max/README.md](skills/code-pro-max/README.md)?
 
 ## Reporting Issues
 
-There is no public tracker yet — see [RELEASE-NOTES.md](../RELEASE-NOTES.md)
-for current known gaps before filing something that may already be a known,
-scoped-out limitation.
+There is no public tracker yet — open a PR or discussion describing the
+gap.
