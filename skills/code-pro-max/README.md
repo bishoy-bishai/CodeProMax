@@ -34,16 +34,19 @@ itself with its own file-read/grep/`git` tools.
   - [`branch-operations.md`](references/branch-operations.md) — branch
     evidence gathering, onboarding doc generation, and the 8-category
     evidence-based branch review.
+  - [`mr-generation.md`](references/mr-generation.md) — field mapping and
+    rules for generating an MR/PR description from a ticket's
+    implementation branch.
 - [`templates/`](templates/) — `initiative.md`, `epic.md`, `tech-spec.md`,
   `adr.md`, `ticket.md`, `release-ticket.md`, `stakeholder-report.md`,
-  `initiative-register.md`, `ticket-prompt.md`, `onboarding.md`, and
-  `branch-review.md`.
+  `initiative-register.md`, `ticket-prompt.md`, `onboarding.md`,
+  `branch-review.md`, and `mr.md`.
 - [`commands/code-pro-max.md`](commands/code-pro-max.md) — the `/code-pro-max`
   slash command for Claude Code (manual invocation, in addition to
   auto-trigger via `SKILL.md`'s description). Takes the phase/subcommand
   as its argument, including `epic-to-dev {{epic content}}`,
-  `ticket-to-prompt <ticket-id>`, `onboarding <branch>`, and
-  `review <branch>`.
+  `ticket-to-prompt <ticket-id>`, `onboarding <branch>`,
+  `review <branch>`, and `mr <ticket-id>`.
 - [`cursor-rule/code-pro-max.mdc`](cursor-rule/code-pro-max.mdc) — Cursor rule
   (auto-applies based on `description` match).
 - [`cursor-rule/commands/code-pro-max.md`](cursor-rule/commands/code-pro-max.md)

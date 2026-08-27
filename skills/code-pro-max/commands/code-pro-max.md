@@ -1,6 +1,6 @@
 ---
 description: Discover, select, plan, validate, or maintain engineering initiatives
-argument-hint: [scan-path | "select <n or name>" | "<initiative name> --build" | "review" | "check drift" | "epic-to-dev {{epic content}}" | "ticket-to-prompt <ticket-id>" | "onboarding <branch>" | "review <branch>"]
+argument-hint: [scan-path | "select <n or name>" | "<initiative name> --build" | "review" | "check drift" | "epic-to-dev {{epic content}}" | "ticket-to-prompt <ticket-id>" | "onboarding <branch>" | "review <branch>" | "mr <ticket-id>"]
 disable-model-invocation: false
 ---
 
@@ -51,6 +51,14 @@ Arguments: $ARGUMENTS
   exist, report that rather than falling back to bare "review"'s
   Phase 4 package check, which is a different operation with no branch
   argument.
+- **"mr \<ticket-id\>"** — the "Utility — Merge Request Generation" section
+  in `SKILL.md`: generate a complete MR/PR description (summary, changes,
+  Acceptance Criteria mapped to evidence, out-of-scope, test plan, risk/
+  rollback, checklist) for the ticket's implementation branch. Read
+  [`../references/mr-generation.md`](../references/mr-generation.md)
+  first. Uses the current branch if none is named and it isn't the base
+  branch; otherwise ask which branch holds the implementation. Read-only —
+  never creates a branch, commits, pushes, or opens an MR/PR itself.
 
 Never fabricate — use `[ASSUMPTION: ...]`, `[UNKNOWN: ...]`, or
 `[PLACEHOLDER: ...]` exactly as `SKILL.md` specifies whenever evidence is

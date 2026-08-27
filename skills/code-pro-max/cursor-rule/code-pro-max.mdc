@@ -1,5 +1,5 @@
 ---
-description: "Use when the user wants a repository scanned for evidence-backed engineering Initiatives, taken through selection, planning, validation, and maintenance. Triggers: 'analyze this repository', 'show me improvement opportunities', 'find technical initiatives worth doing', 'create the initiative for #3', 'expand <initiative name>', 'generate the implementation plan', 'review the initiative', 'check for drift', 'update the tickets based on the tech spec', 'I already have an epic, generate the tech spec and tickets from it', 'epic-to-dev', 'turn this ticket into a build prompt', 'ticket-to-prompt', 'onboard me on this branch', 'review this branch'."
+description: "Use when the user wants a repository scanned for evidence-backed engineering Initiatives, taken through selection, planning, validation, and maintenance. Triggers: 'analyze this repository', 'show me improvement opportunities', 'find technical initiatives worth doing', 'create the initiative for #3', 'expand <initiative name>', 'generate the implementation plan', 'review the initiative', 'check for drift', 'update the tickets based on the tech spec', 'I already have an epic, generate the tech spec and tickets from it', 'epic-to-dev', 'turn this ticket into a build prompt', 'ticket-to-prompt', 'onboard me on this branch', 'review this branch', 'create an MR for this ticket', 'generate the merge request description'."
 alwaysApply: false
 ---
 
@@ -15,14 +15,16 @@ five phases (Discover → Select → Plan → Validate → Maintain), the
 written epic, the "Utility — Ticket → Build Prompt" flow for converting an
 existing ticket into an AICraft-schema build prompt, the "Utility — Branch
 Onboarding & Review" flows for onboarding docs and evidence-based code
-review against a real git branch, the no-fabrication rule
+review against a real git branch, the "Utility — Merge Request Generation"
+flow for generating an MR/PR description from a ticket's implementation
+branch, the no-fabrication rule
 (`[ASSUMPTION]` / `[UNKNOWN]` / `[PLACEHOLDER]` / `[HYPOTHESIS]` tags),
 and links to the `references/` directory for the detailed reconnaissance,
 evidence, scoring, INVEST, and documentation rules each phase uses.
 
 Use the templates in `skills/code-pro-max/templates/` (initiative, epic,
 tech-spec, adr, ticket, release-ticket, stakeholder-report,
-initiative-register, ticket-prompt, onboarding, branch-review) when
+initiative-register, ticket-prompt, onboarding, branch-review, mr) when
 generating documents — do not invent your own document structure. Never
 implement code changes from this rule alone; "implement" requests require
 explicit approval first.
