@@ -239,6 +239,25 @@ explicit-approval step required before implementing any fix they surface.
 
 ---
 
+## Utility — Merge Request Generation
+
+Once a ticket has been implemented on a branch, `/code-pro-max mr
+<ticket-id>` generates the full Merge/Pull Request description for it:
+summary, problem, changes (from the actual diff), an Acceptance Criteria
+table mapped to evidence, out-of-scope note, test plan, risk/rollback, and
+a checklist. It reuses `branch-operations.md`'s evidence-gathering
+pipeline against the implementation branch, then maps the ticket and its
+parent Initiative/Epic/Tech Spec into the MR fields — full mechanics and
+field mapping in
+[references/mr-generation.md](references/mr-generation.md). Template:
+[templates/mr.md](templates/mr.md).
+
+This is read-only: it never creates a branch, commits, pushes, or opens an
+MR/PR against any remote — it produces the description text for the user
+to paste into their own MR/PR tool.
+
+---
+
 ## Phase 4 — Validate
 
 Before considering an initiative complete, run a consistency review:
@@ -341,6 +360,7 @@ detection.
 | [references/documentation-framework.md](references/documentation-framework.md) | Per-document audience/purpose/structure, writing constitution, diagramming standard, reference hierarchy |
 | [references/ticket-to-prompt.md](references/ticket-to-prompt.md) | Field mapping and rules for converting a ticket into an AICraft-schema build prompt |
 | [references/branch-operations.md](references/branch-operations.md) | Branch evidence gathering, onboarding doc generation, and the 8-category evidence-based branch review |
+| [references/mr-generation.md](references/mr-generation.md) | Field mapping and rules for generating an MR/PR description from a ticket's implementation branch |
 
 These are mental models and reference structure, not rigid checklists. **The
 repository's actual evidence and conventions always take precedence.**
