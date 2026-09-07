@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "code-pro-max",
+  "description": "Turn a codebase into prioritized, evidence-backed engineering Initiatives and drive them through planning to implementation-ready tickets, MRs, onboarding docs, and branch reviews.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Bishoy Bishai",
+    "url": "https://github.com/bishoy-bishai"
+  },
+  "homepage": "https://github.com/bishoy-bishai/CodeProMax",
+  "repository": "https://github.com/bishoy-bishai/CodeProMax",
+  "license": "ISC",
+  "keywords": [
+    "agent-skills",
+    "ai-agent",
+    "claude-code",
+    "engineering",
+    "tech-debt",
+    "planning",
+    "tickets",
+    "code-review",
+    "onboarding",
+    "epic",
+    "tech-spec",
+    "developer-productivity"
+  ],
+  "commands": [
+    "./skills/code-pro-max/commands/code-pro-max.md"
+  ]
+}
