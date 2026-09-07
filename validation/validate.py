@@ -365,9 +365,21 @@ def check_consistency(plugin, marketplace, skill_fm):
             )
 
     # Version must not be contradicted anywhere in the docs.
+    # RELEASE_NOTES.md is a changelog: only its topmost "## x.y.z" heading
+    # represents the *current* version — older headings and prose are a
+    # historical record and are expected to mention past versions.
     other_versions = set()
     version_re = re.compile(r"(?:^|\s)v?(\d+\.\d+\.\d+)\b")
-    for doc in (ROOT / "README.md", ROOT / "VALIDATION.md", ROOT / "RELEASE_NOTES.md"):
+    release_notes = ROOT / "RELEASE_NOTES.md"
+    if release_notes.is_file():
+        heading_re = re.compile(r"^##\s+v?(\d+\.\d+\.\d+)\b")
+        for line in read_text(release_notes).splitlines():
+            match = heading_re.match(line)
+            if match:
+                if match.group(1) != version:
+                    other_versions.add((rel(release_notes), match.group(1)))
+                break
+    for doc in (ROOT / "README.md", ROOT / "VALIDATION.md"):
         if not doc.is_file():
             continue
         for line in read_text(doc).splitlines():

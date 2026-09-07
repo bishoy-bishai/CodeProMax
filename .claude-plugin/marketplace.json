@@ -10,7 +10,7 @@
       "name": "code-pro-max",
       "source": "./",
       "description": "Turn a codebase into prioritized, evidence-backed engineering initiatives and drive them through planning to implementation-ready tickets, release plans, stakeholder reports, onboarding docs, branch reviews, and build prompts.",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "license": "ISC",
       "author": {
         "name": "Bishoy Bishai",

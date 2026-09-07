@@ -1,5 +1,41 @@
 # Release Notes
 
+## 1.1.0
+
+Adds two new reference capabilities to the Plan and Discover/branch-
+operations phases; no breaking changes to the existing workflow, templates,
+or commands.
+
+### What's new
+
+**Humanization pass** — a new editorial pass
+(`references/humanization.md`) applied to generated prose after the
+Writing Constitution and before a document is finalized. Removes
+recognizable AI-writing patterns (fake contrasts, generic framing/
+conclusions, inflated language, forced triads, excessive em dashes,
+repetitive structure) at a per-artifact intervention level, while never
+touching facts, technical terms, evidence markers, or Markdown/table/code
+structure. Minimal-intervention by design — sentences that already read
+naturally are left untouched.
+
+**Evidence Index** — a disposable, commit-SHA-keyed cache
+(`references/evidence-index.md`, stored at `evidence/index.json` in the
+analyzed repository) so reconnaissance (Discover) and branch evidence
+(Onboarding, Review, MR Generation) aren't re-gathered when the underlying
+git state hasn't changed. Reuse requires an exact SHA match — any mismatch
+is a full cache miss, and the index never overrides live git state or
+caches findings/conclusions, only the underlying diff and reconnaissance
+evidence.
+
+### Validation
+
+- `validation/validate.py --strict` — 0 errors, 0 warnings.
+- `tests/test_behavior.py` — 37/37 passing, including 10 new tests
+  covering both additions (existence, wiring into `SKILL.md` and the
+  pipelines they extend, and their safety constraints).
+
+---
+
 ## 1.0.0 — Draft
 
 First stable release of **Code Pro Max** as a markdown-only Agent Skill and

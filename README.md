@@ -12,7 +12,7 @@ priority, a traced root cause, and a ready-to-build implementation plan.
 
 It is markdown only: `SKILL.md`, `references/`, and `templates/` that your
 agent reads. There is no runtime, no service, and nothing that executes on
-install. Current version: **1.0.0**.
+install. Current version: **1.1.0**.
 
 > **Using an AI coding agent?** Paste this into it:
 > ```
