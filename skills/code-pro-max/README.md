@@ -40,6 +40,9 @@ itself with its own file-read/grep/`git` tools.
   - [`mr-generation.md`](references/mr-generation.md) — field mapping and
     rules for generating an MR/PR description from a ticket's
     implementation branch.
+  - [`evidence-index.md`](references/evidence-index.md) — commit-keyed
+    cache so reconnaissance and branch evidence aren't re-gathered when
+    the underlying code hasn't changed.
 - [`templates/`](templates/) — `initiative.md`, `epic.md`, `tech-spec.md`,
   `adr.md`, `ticket.md`, `release-ticket.md`, `stakeholder-report.md`,
   `initiative-register.md`, `ticket-prompt.md`, `onboarding.md`,

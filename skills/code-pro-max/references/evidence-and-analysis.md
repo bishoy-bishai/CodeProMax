@@ -31,6 +31,11 @@ Unknowns required for planning become explicit `[PLACEHOLDER]` items.
 **Objective:** build a reliable mental model of the repository before making
 improvement recommendations. **Principle: understand before judging.**
 
+Before starting, check [evidence-index.md](evidence-index.md) — if
+reconnaissance was already gathered against the current HEAD SHA, reuse
+that summary instead of repeating this pipeline. Any SHA mismatch means
+running it in full.
+
 **Repository identification** — determine application type, languages,
 frameworks, runtime(s), package manager, build system, repo model (single /
 monorepo / multi-service), deployment model. Inspect README, package

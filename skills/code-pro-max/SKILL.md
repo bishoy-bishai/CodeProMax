@@ -55,7 +55,10 @@ Follow the reconnaissance pipeline in
 (§01 Reconnaissance) — repository identification, structural mapping, entry
 points, architecture discovery, data-flow tracing, dependency mapping,
 quality/CI/CD/observability/documentation discovery. **Understand before
-judging** — do not change code in this phase.
+judging** — do not change code in this phase. Check
+[references/evidence-index.md](references/evidence-index.md) first — if
+reconnaissance was already gathered against the current HEAD, reuse it
+instead of re-walking the repository.
 
 Evaluate opportunities across: Architecture, Code Quality, Maintainability,
 Testing, Performance, Security, Observability, Developer Experience,
@@ -370,6 +373,7 @@ detection.
 | [references/ticket-to-prompt.md](references/ticket-to-prompt.md) | Field mapping and rules for converting a ticket into an AICraft-schema build prompt |
 | [references/branch-operations.md](references/branch-operations.md) | Branch evidence gathering, onboarding doc generation, and the 9-category evidence-based branch review |
 | [references/mr-generation.md](references/mr-generation.md) | Field mapping and rules for generating an MR/PR description from a ticket's implementation branch |
+| [references/evidence-index.md](references/evidence-index.md) | Commit-keyed cache so reconnaissance and branch evidence aren't re-gathered when the underlying code hasn't changed |
 
 These are mental models and reference structure, not rigid checklists. **The
 repository's actual evidence and conventions always take precedence.**

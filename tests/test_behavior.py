@@ -261,6 +261,39 @@ class HumanizationTest(unittest.TestCase):
         self.assertIn("code blocks", text)
 
 
+class EvidenceIndexTest(unittest.TestCase):
+    """The evidence cache must exist, be wired into the pipelines it
+    speeds up, and never be allowed to override live git state."""
+
+    def test_evidence_index_reference_exists(self):
+        self.assertTrue((REFERENCES / "evidence-index.md").is_file())
+
+    def test_evidence_index_linked_from_skill_and_pipelines(self):
+        self.assertIn(
+            "references/evidence-index.md", flat(SKILL_DIR / "SKILL.md")
+        )
+        self.assertIn(
+            "evidence-index.md", flat(REFERENCES / "evidence-and-analysis.md")
+        )
+        self.assertIn(
+            "evidence-index.md", flat(REFERENCES / "branch-operations.md")
+        )
+
+    def test_evidence_index_requires_exact_sha_match(self):
+        text = flat_lower(REFERENCES / "evidence-index.md")
+        self.assertIn("exact match only", text)
+        self.assertIn("mismatch", text)
+
+    def test_evidence_index_is_disposable_not_authoritative(self):
+        text = flat_lower(REFERENCES / "evidence-index.md")
+        self.assertIn("never authoritative over live git state", text)
+        self.assertIn("disposable", text)
+
+    def test_evidence_index_does_not_cache_findings_or_conclusions(self):
+        text = flat_lower(REFERENCES / "evidence-index.md")
+        self.assertIn("never cached and replayed verbatim", text)
+
+
 class DocumentationConsistencyTest(unittest.TestCase):
     """The root README must not describe workflows the skill does not define."""
 

@@ -25,7 +25,11 @@ below use those directly rather than restating them.
 
 ## Shared: Branch Evidence Gathering
 
-Run this full pipeline before either operation produces output.
+Run this full pipeline before either operation produces output. Before
+Step 3, check [evidence-index.md](evidence-index.md) — if the branch's
+head SHA and merge-base SHA match a cached entry, reuse the cached
+Steps 3–6 evidence instead of re-gathering it. Any SHA mismatch, or no
+entry, means running Steps 3–6 in full and updating the index.
 
 **Step 0 — Repository state.** Check `git status --short`,
 `git branch --show-current`, `git rev-parse --show-toplevel`. Determine
