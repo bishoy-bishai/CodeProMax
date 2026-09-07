@@ -17,11 +17,14 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Structural validation
-        run: python3 scripts/validate.py
+      - name: Package validation
+        run: python3 validation/validate.py
+
+      - name: Package validation (strict)
+        run: python3 validation/validate.py --strict
 
       - name: Behavioral tests
-        run: python3 scripts/test_behavior.py
+        run: python3 -m unittest discover -s tests -v
 
       - name: Set up Node
         uses: actions/setup-node@v4

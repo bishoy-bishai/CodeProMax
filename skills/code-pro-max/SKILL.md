@@ -359,7 +359,7 @@ detection.
 | [references/initiative-lifecycle.md](references/initiative-lifecycle.md) | Initiative identity/naming/folders, register, traceability, duplicate detection, quality gate, selection flow |
 | [references/documentation-framework.md](references/documentation-framework.md) | Per-document audience/purpose/structure, writing constitution, diagramming standard, reference hierarchy |
 | [references/ticket-to-prompt.md](references/ticket-to-prompt.md) | Field mapping and rules for converting a ticket into an AICraft-schema build prompt |
-| [references/branch-operations.md](references/branch-operations.md) | Branch evidence gathering, onboarding doc generation, and the 8-category evidence-based branch review |
+| [references/branch-operations.md](references/branch-operations.md) | Branch evidence gathering, onboarding doc generation, and the 9-category evidence-based branch review |
 | [references/mr-generation.md](references/mr-generation.md) | Field mapping and rules for generating an MR/PR description from a ticket's implementation branch |
 
 These are mental models and reference structure, not rigid checklists. **The

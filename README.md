@@ -3,10 +3,16 @@
 **From Codebase → Engineering Initiatives → Executable Work.**
 Find what's worth improving. Then turn it into work.
 
+## What is Code Pro Max?
+
 Code Pro Max is a skill for coding agents (Claude Code, Cursor, Codex CLI,
 Antigravity, or similar) that turns "the codebase feels risky" into a
 ranked, evidence-backed list of specific problems — each with a scored
 priority, a traced root cause, and a ready-to-build implementation plan.
+
+It is markdown only: `SKILL.md`, `references/`, and `templates/` that your
+agent reads. There is no runtime, no service, and nothing that executes on
+install. Current version: **1.0.0**.
 
 > **Using an AI coding agent?** Paste this into it:
 > ```
@@ -23,7 +29,7 @@ priority, a traced root cause, and a ready-to-build implementation plan.
 
 ---
 
-## Core Principle — Evidence Before Initiative
+## Why It's Different — Evidence Before Initiative
 
 The agent must never recommend a generic improvement without evidence from
 the repository.
@@ -135,6 +141,84 @@ command — the table below is for the explicit form.
 | `/code-pro-max ticket-to-prompt <ticket-id>` | Converts an existing ticket into a self-contained build prompt, formatted to the [AICraft](https://github.com/bishoy-bishai/AICraft/tree/main/skill) prompt schema (Context/Goal/Constraints/Inputs/Expected Output/Definition of Done). Produces a prompt — doesn't implement anything itself. |
 | `/code-pro-max onboarding <branch>` | Generates an onboarding doc for a git branch's change: what changed, why (traced to a linked ticket/Initiative when findable), key files to read first, how to run/test it locally. Read-only. |
 | `/code-pro-max review <branch>` | An evidence-based code review of that branch's diff, in a fixed order (Scope & Intent → Architecture → Domain → Correctness → Security → Performance → Readability → Testing → Documentation), each finding ranked MUST/SHOULD/COULD with a confidence tier. Read-only — produces a report, not a fix or a verdict. |
+| `/code-pro-max mr <ticket-id>` | Generates a complete MR/PR *description* for the ticket's implementation branch (summary, changes from the actual diff, Acceptance Criteria mapped to evidence, out-of-scope, test plan, risk/rollback, checklist). Read-only — it never creates a branch, commits, pushes, or opens an MR/PR. |
+
+---
+
+## Supported Workflows
+
+Every workflow below is defined in
+[skills/code-pro-max/SKILL.md](skills/code-pro-max/SKILL.md) and its
+`references/`; nothing here is aspirational.
+
+| Workflow | Entry point | Writes? |
+|---|---|---|
+| **Discover** — ranked Top 5 evidence-backed opportunities | `/code-pro-max [path]` | Candidate `initiative.md` files only |
+| **Select** — choose the planning target, duplicate-checked against the register | `/code-pro-max select <n or name>` | Register update |
+| **Plan** — Initiative → Epic → Tech Spec → ADR → Tickets → Release Ticket → Stakeholder Report | `/code-pro-max "<name>" --build` | Planning documents |
+| **Validate** — consistency/coverage review of the planning package | `/code-pro-max review` | No |
+| **Maintain** — register sync, ticket resync, drift detection | `/code-pro-max "check drift"` | Planning documents |
+| **Epic → Dev** — plan from an epic you already wrote | `/code-pro-max epic-to-dev {{epic}}` | Planning documents |
+| **Ticket → Prompt** — turn a ticket into an AICraft-schema build prompt | `/code-pro-max ticket-to-prompt <id>` | Prompt document |
+| **Branch Onboarding** — "what changed and why" handoff doc for a branch | `/code-pro-max onboarding <branch>` | Doc only, read-only analysis |
+| **Branch Review** — 9-category, MUST/SHOULD/COULD evidence-based review | `/code-pro-max review <branch>` | Doc only, read-only analysis |
+| **MR Generation** — full MR/PR description text for an implementation branch | `/code-pro-max mr <ticket-id>` | Doc only, never touches a remote |
+
+---
+
+## Example Prompts
+
+Ready to paste into your agent once the skill is installed. No slash
+command required — the skill also triggers from plain language.
+
+**1. Find the highest-value work in this repo**
+
+```
+Analyze this repository with Code Pro Max and show me the top 5 engineering
+improvement opportunities. For each one give me the problem, the concrete
+evidence with file paths and line numbers, the impact, the effort, and the
+risk — and mark anything you can't establish from the code as [UNKNOWN]
+rather than guessing.
+```
+
+**2. Build the full planning package for one initiative**
+
+```
+Select initiative #2 and run the full planning chain for it: Initiative
+brief, Epic, Tech Spec, ADR, one INVEST-validated ticket per scope item,
+the Release Ticket, and the Stakeholder Report. Don't write tickets before
+the Tech Spec and ADR are settled, and make sure every scope item maps to
+at least one ticket. Then run the Validate pass and report any gaps.
+```
+
+**3. Review a branch, read-only**
+
+```
+Run a Code Pro Max branch review of feature/checkout-refactor against its
+base branch. Go in the fixed order (Scope & Intent → Architecture → Domain
+→ Correctness → Security → Performance → Readability → Testing →
+Documentation), rank every finding MUST/SHOULD/COULD with the evidence it
+rests on, and don't change any code — I want the report, not a fix.
+```
+
+**4. Onboard onto someone else's branch**
+
+```
+I'm picking up the branch fix/session-expiry from a teammate. Generate the
+Code Pro Max onboarding doc: what changed and why, before/after behavior,
+the key files to read first in priority order, and how to run and test it
+locally. Trace it back to a ticket or Initiative if you can find one.
+```
+
+**5. Plan from an epic I already wrote**
+
+```
+Here's an epic I already wrote: <paste or path>. Use Code Pro Max
+epic-to-dev — don't re-derive its scope. Backfill a minimal Initiative for
+traceability, run a scoped evidence pass over just the areas the epic
+touches, then generate the Tech Spec, ADR, tickets, Release Ticket, and
+Stakeholder Report.
+```
 
 ---
 
@@ -187,6 +271,23 @@ that concept.
 ---
 
 ## Install
+
+There are three distinct install paths, and they are not
+interchangeable — pick one:
+
+| Path | What it installs | Use when |
+|---|---|---|
+| **Agent Skills CLI** ([below](#via-the-agent-skills-cli)) | The skill files, via `npx skills` | Fastest path; your client is supported by the `skills` CLI |
+| **Claude Code plugin** ([below](#as-a-claude-code-plugin)) | Skill + `/code-pro-max` command as a managed plugin | You're on Claude Code and want managed install/updates |
+| **Manual copy** (this section) | The markdown files, copied by hand | Cursor, Codex CLI, Antigravity, or any client not covered above |
+
+**Client compatibility.** Claude Code is supported through all three paths.
+Cursor, Codex CLI, and Antigravity are supported through the manual copy
+commands below (Cursor and Codex ship dedicated rule/prompt files in this
+repo). Any other Agent-Skills-compatible client can use the skill by
+copying the same files into wherever it reads instructions from, but this
+repo does not ship a tested install command for it — treat that as
+adapt-it-yourself, not verified support.
 
 The skill lives in [`skills/code-pro-max/`](skills/code-pro-max/) in *this*
 repo — you install it *into whatever project you want the skill available
@@ -264,11 +365,11 @@ claude plugin validate . --strict
 ### Via the Agent Skills CLI
 
 ```bash
-npx skills add bishoy-bishai/CodeProMax --skill code-pro-max --agent claude-code
+npx skills add bishoy-bishai/CodeProMax --skill code-pro-max
 ```
 
-Swap `--agent claude-code` for your client (`cursor`, `codex`, etc.), or
-drop it to be prompted.
+You'll be prompted for the target client. To skip the prompt, name it
+explicitly — e.g. `--agent claude-code` (swap in `cursor`, `codex`, etc.).
 
 ---
 
@@ -298,6 +399,18 @@ network calls or telemetry calls of its own.
   broader sense — it only describes what these markdown instructions do and
   don't request; your agent client's own telemetry/network behavior (if
   any) is unaffected by installing this skill.
+- **Source code, branches, commits, pushes, PRs:** the skill never modifies
+  your source code, and never creates a branch, commit, tag, push, or
+  pull/merge request. Discover, Validate, Maintain, branch onboarding,
+  branch review, and MR generation are analysis-and-document operations
+  only. Implementing an initiative is a separate workflow that requires
+  your explicit approval — discovering a problem never authorizes fixing
+  it.
+
+The repo's own `validation/` and `tests/` scripts are the only executable
+files here, they are stdlib-only Python, they are never invoked by the
+skill, and they run only when you or CI run them. See
+[VALIDATION.md](VALIDATION.md).
 
 ---
 

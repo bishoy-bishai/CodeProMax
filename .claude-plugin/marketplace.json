@@ -1,6 +1,6 @@
 {
   "name": "code-pro-max",
-  "description": "Code Pro Max: turn a codebase into prioritized, evidence-backed engineering Initiatives and drive them through planning to implementation-ready tickets.",
+  "description": "Code Pro Max: evidence-first engineering initiative discovery, planning, and review for coding agents.",
   "owner": {
     "name": "Bishoy Bishai",
     "url": "https://github.com/bishoy-bishai"
@@ -9,7 +9,28 @@
     {
       "name": "code-pro-max",
       "source": "./",
-      "description": "Turn a codebase into prioritized, evidence-backed engineering Initiatives and drive them through planning to implementation-ready tickets, MRs, onboarding docs, and branch reviews."
+      "description": "Turn a codebase into prioritized, evidence-backed engineering initiatives and drive them through planning to implementation-ready tickets, release plans, stakeholder reports, onboarding docs, branch reviews, and build prompts.",
+      "version": "1.0.0",
+      "license": "ISC",
+      "author": {
+        "name": "Bishoy Bishai",
+        "url": "https://github.com/bishoy-bishai"
+      },
+      "homepage": "https://github.com/bishoy-bishai/CodeProMax",
+      "keywords": [
+        "agent-skills",
+        "ai-agent",
+        "claude-code",
+        "engineering",
+        "tech-debt",
+        "planning",
+        "tickets",
+        "code-review",
+        "onboarding",
+        "epic",
+        "tech-spec",
+        "developer-productivity"
+      ]
     }
   ]
 }

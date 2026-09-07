@@ -37,6 +37,18 @@ Short, imperative commit subjects prefixed with `feat:`/`fix:`/`docs:`
 (see `git log` for examples). Keep the body focused on *why*, not a
 restatement of the diff.
 
+## Before Opening a PR
+
+Run both, from the repo root — stdlib Python only, nothing to install:
+
+```bash
+python3 validation/validate.py --strict
+python3 -m unittest discover -s tests -v
+```
+
+CI runs the same commands. Full details of what each one checks, and the
+complete pre-PR checklist, are in [VALIDATION.md](VALIDATION.md).
+
 ## Review Checklist
 
 - Does the changed instruction ever ask the agent to assert something not
