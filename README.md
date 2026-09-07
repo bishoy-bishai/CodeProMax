@@ -242,6 +242,63 @@ and `templates/` from the same `skills/code-pro-max/` directory.
 Full breakdown of what each command does, plus how to adjust paths:
 [skills/code-pro-max/README.md](skills/code-pro-max/README.md).
 
+### As a Claude Code plugin
+
+This repo is also a Claude Code plugin (`.claude-plugin/plugin.json` +
+`.claude-plugin/marketplace.json`), installable from source without a
+separate marketplace submission:
+
+```bash
+claude plugin marketplace add bishoy-bishai/CodeProMax
+claude plugin install code-pro-max@code-pro-max
+```
+
+This installs the `code-pro-max` skill and its `/code-pro-max` command as a
+managed plugin. To validate the plugin locally instead of installing it:
+
+```bash
+git clone https://github.com/bishoy-bishai/CodeProMax.git && cd CodeProMax
+claude plugin validate . --strict
+```
+
+### Via the Agent Skills CLI
+
+```bash
+npx skills add bishoy-bishai/CodeProMax --skill code-pro-max --agent claude-code
+```
+
+Swap `--agent claude-code` for your client (`cursor`, `codex`, etc.), or
+drop it to be prompted.
+
+---
+
+## Privacy & Data Handling
+
+Code Pro Max is a markdown-only prompt skill: `SKILL.md`, `references/`,
+and `templates/` files read by your own AI coding agent. It contains no
+source code, no scripts that execute at skill-load time, and makes no
+network calls or telemetry calls of its own.
+
+- **What it reads:** whatever the agent already has access to in your
+  project — source files, git history, test output, dependency manifests —
+  using the agent's own file-read/grep/git tools. The skill's instructions
+  do not request or require any additional data.
+- **What it writes:** planning documents it's instructed to generate
+  (`initiative-register.md`, `initiative.md`, `epic.md`, `tech-spec.md`,
+  `adr.md`, ticket files, `release-ticket.md`, `stakeholder-report.md`) into
+  your project's working tree, and nowhere else.
+- **External services:** none required. All processing happens through
+  whatever agent (Claude Code, Cursor, Codex CLI, etc.) and model you
+  already have configured — the skill does not call any API directly.
+- **Network calls:** none originate from the skill's own instructions. The
+  `mr`, `onboarding`, and `review <branch>` utilities are read-only against
+  your local git repository; none of them push, open, or otherwise contact
+  a remote.
+- **Telemetry:** none. This is not a claim of "private" or "secure" in any
+  broader sense — it only describes what these markdown instructions do and
+  don't request; your agent client's own telemetry/network behavior (if
+  any) is unaffected by installing this skill.
+
 ---
 
 ## Differentiator

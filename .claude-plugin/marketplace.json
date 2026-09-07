@@ -1,0 +1,15 @@
+{
+  "name": "code-pro-max",
+  "description": "Code Pro Max: turn a codebase into prioritized, evidence-backed engineering Initiatives and drive them through planning to implementation-ready tickets.",
+  "owner": {
+    "name": "Bishoy Bishai",
+    "url": "https://github.com/bishoy-bishai"
+  },
+  "plugins": [
+    {
+      "name": "code-pro-max",
+      "source": "./",
+      "description": "Turn a codebase into prioritized, evidence-backed engineering Initiatives and drive them through planning to implementation-ready tickets, MRs, onboarding docs, and branch reviews."
+    }
+  ]
+}
