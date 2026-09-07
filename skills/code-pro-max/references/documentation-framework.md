@@ -52,6 +52,10 @@ filter."
 
 Avoid vague filler — *robust, seamless, cutting-edge, revolutionary,
 transformative* — unless the word has a precise, defensible meaning here.
+After drafting, run the dedicated editing pass in
+[humanization.md](humanization.md) to catch the AI-writing patterns this
+constitution doesn't enumerate (generic framing, forced contrasts, filler
+conclusions, forced triads) without touching facts or technical terms.
 
 **Language** — default is plain professional English unless the user asks
 for another language. Technical language is fine for technical audiences;

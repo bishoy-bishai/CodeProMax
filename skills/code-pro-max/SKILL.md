@@ -186,6 +186,14 @@ direction is understood** (Problem → Design → Implementation):
 
 Missing information at any step is `[PLACEHOLDER]`, never invented.
 
+After drafting a document's prose sections (not its code/tables/diagrams),
+apply the humanization editing pass in
+[references/humanization.md](references/humanization.md) — it removes
+recognizable AI-writing patterns (generic framing, inflated language,
+forced contrasts, filler conclusions) without changing meaning, facts, or
+technical terms. Minimal intervention: touch a sentence only if it actually
+matches one of that file's patterns.
+
 ---
 
 ## Utility — Ticket → Build Prompt
@@ -358,6 +366,7 @@ detection.
 | [references/tech-spec-standard.md](references/tech-spec-standard.md) | Tech Spec quality criteria, full anatomy, review gate |
 | [references/initiative-lifecycle.md](references/initiative-lifecycle.md) | Initiative identity/naming/folders, register, traceability, duplicate detection, quality gate, selection flow |
 | [references/documentation-framework.md](references/documentation-framework.md) | Per-document audience/purpose/structure, writing constitution, diagramming standard, reference hierarchy |
+| [references/humanization.md](references/humanization.md) | Editorial pass that removes AI-writing patterns from generated prose without changing meaning, facts, or technical terms |
 | [references/ticket-to-prompt.md](references/ticket-to-prompt.md) | Field mapping and rules for converting a ticket into an AICraft-schema build prompt |
 | [references/branch-operations.md](references/branch-operations.md) | Branch evidence gathering, onboarding doc generation, and the 9-category evidence-based branch review |
 | [references/mr-generation.md](references/mr-generation.md) | Field mapping and rules for generating an MR/PR description from a ticket's implementation branch |

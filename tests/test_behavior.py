@@ -229,6 +229,38 @@ class SafetyBoundaryTest(unittest.TestCase):
         self.assertIn("telemetry", text)
 
 
+class HumanizationTest(unittest.TestCase):
+    """The humanization pass must exist, be wired in, and never override
+    the no-fabrication / technical-preservation rules it sits downstream of."""
+
+    def test_humanization_reference_exists(self):
+        self.assertTrue((REFERENCES / "humanization.md").is_file())
+
+    def test_humanization_linked_from_skill_and_documentation_framework(self):
+        self.assertIn(
+            "references/humanization.md", flat(SKILL_DIR / "SKILL.md")
+        )
+        self.assertIn(
+            "humanization.md",
+            flat(REFERENCES / "documentation-framework.md"),
+        )
+
+    def test_humanization_preserves_meaning_and_technical_terms(self):
+        text = flat_lower(REFERENCES / "humanization.md")
+        self.assertIn("what humanization must never touch", text)
+        self.assertIn("no-fabrication rule", text)
+        self.assertIn("react", text)
+
+    def test_humanization_is_minimal_intervention(self):
+        text = flat_lower(REFERENCES / "humanization.md")
+        self.assertIn("minimum-necessary-intervention", text)
+
+    def test_humanization_does_not_apply_to_code_or_structured_content(self):
+        text = flat_lower(REFERENCES / "humanization.md")
+        self.assertIn("markdown structure", text)
+        self.assertIn("code blocks", text)
+
+
 class DocumentationConsistencyTest(unittest.TestCase):
     """The root README must not describe workflows the skill does not define."""
 

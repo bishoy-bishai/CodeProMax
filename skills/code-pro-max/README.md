@@ -29,6 +29,9 @@ itself with its own file-read/grep/`git` tools.
     quality gate, selection flow.
   - [`documentation-framework.md`](references/documentation-framework.md) —
     per-document audience/purpose/structure and the writing constitution.
+  - [`humanization.md`](references/humanization.md) — editorial pass that
+    removes AI-writing patterns from generated prose without changing
+    meaning, facts, or technical terms.
   - [`ticket-to-prompt.md`](references/ticket-to-prompt.md) — field mapping
     and rules for converting a ticket into an AICraft-schema build prompt.
   - [`branch-operations.md`](references/branch-operations.md) — branch
